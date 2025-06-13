@@ -15,7 +15,6 @@ namespace kawanaka
         [Header("Follow Settings")]
         [SerializeField] private FollowMode mode = FollowMode.SmoothDamp;
         [SerializeField] private float followSpeed = 5f;
-        [SerializeField] private float rotationSpeed = 10f;
 
         [Header("Advanced")]
         [SerializeField] private float smoothTime = 0.3f;
@@ -29,7 +28,6 @@ namespace kawanaka
             if (target == null) return;
 
             UpdatePosition();
-            UpdateRotation();
         }
 
         private void UpdatePosition()
@@ -64,20 +62,6 @@ namespace kawanaka
                     transform.position += springVelocity * Time.deltaTime;
                     break;
             }
-        }
-
-        private void UpdateRotation()
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(
-                target.position - transform.position,
-                target.up
-            );
-
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
         }
 
         private void OnValidate()
