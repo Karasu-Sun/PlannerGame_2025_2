@@ -8,14 +8,11 @@ namespace kawanaka
     {
         [SerializeField] private PlayerStatusManager playerStatusManager;
         [SerializeField] private Camera subCamera;
+        [SerializeField] private SEManager sEManager;
 
         private void Update()
         {
-            if (playerStatusManager == null || subCamera == null) return;
-
             bool isOperation = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
-
-            // サブカメラを有効化／無効化
             subCamera.enabled = isOperation;
         }
     }

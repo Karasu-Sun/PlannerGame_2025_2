@@ -6,6 +6,8 @@ namespace kawanaka
 {
     public class MouseLock : MonoBehaviour
     {
+        [SerializeField] private PlayerStatusManager playerStatusManager;
+
         void Start()
         {
             LockCursor();
@@ -14,13 +16,11 @@ namespace kawanaka
         void Update()
         {
             // ロック解除
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (playerStatusManager.GetStatus(PlayerStatusType.IsOption))
             {
                 UnlockCursor();
             }
-
-            // 再ロック
-            if (Input.GetMouseButtonDown(1))
+            else if (!playerStatusManager.GetStatus(PlayerStatusType.IsOption))
             {
                 LockCursor();
             }

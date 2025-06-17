@@ -39,13 +39,25 @@ namespace kawanaka
             }
         }
 
+        //(‰¼)
+        [SerializeField] private SEManager sEManager;
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                SEManager.Instance.PlaySE_Blocking(0);
+
                 bool isOperating = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
 
                 playerStatusManager.SetStatus(PlayerStatusType.IsOperation, !isOperating);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                bool isPausing = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
+
+                playerStatusManager.SetStatus(PlayerStatusType.IsOption, !isPausing);
             }
         }
     }

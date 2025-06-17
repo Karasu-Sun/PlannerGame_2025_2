@@ -72,17 +72,5 @@ namespace kawanaka
                 transform.LookAt(target);
             }
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
-        {
-            if (target != null)
-            {
-                Gizmos.color = Color.cyan;
-                Gizmos.DrawWireSphere(target.TransformPoint(offset), 0.2f);
-                Gizmos.DrawLine(transform.position, target.TransformPoint(offset));
-            }
-        }
-#endif
     }
 }
