@@ -55,6 +55,8 @@ namespace kawanaka
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                if (playerStatusManager.GetStatus(PlayerStatusType.IsOperation)) return;
+
                 bool isPausing = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
 
                 playerStatusManager.SetStatus(PlayerStatusType.IsOption, !isPausing);

@@ -22,6 +22,7 @@ namespace kawanaka
             isPausing = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
 
             if (sEManager.IsPlayingSE) return;
+            if (playerStatusManager.GetStatus(PlayerStatusType.IsOperation)) return;
 
             if (isPausing != previousPausingState)
             {
