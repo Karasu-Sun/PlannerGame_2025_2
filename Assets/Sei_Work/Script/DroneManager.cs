@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace kawanaka
+using kawanaka; // 他ネームスペースを参照する場合はこれか
+
+namespace sei
 {
     public class DroneManager : MonoBehaviour
     {
-        [SerializeField] private PlayerStatusManager playerStatusManager;
+        [SerializeField] private kawanaka.PlayerStatusManager playerStatusManager; // 一部だけならこれでも参照できる
         [SerializeField] private Camera subCamera;
         [SerializeField] private SEManager sEManager;
         [SerializeField] private GameObject player;
