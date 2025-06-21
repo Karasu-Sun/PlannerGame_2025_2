@@ -9,7 +9,7 @@ namespace sei
     public class DroneManager : MonoBehaviour
     {
         [SerializeField] private kawanaka.PlayerStatusManager playerStatusManager; // àÍïîÇæÇØÇ»ÇÁÇ±ÇÍÇ≈Ç‡éQè∆Ç≈Ç´ÇÈ
-        [SerializeField] private Camera subCamera;
+        [SerializeField] private Camera droneCamera;
         [SerializeField] private SEManager sEManager;
         [SerializeField] private GameObject player;
 
@@ -18,9 +18,9 @@ namespace sei
             bool isOperation = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
             if (!isOperation)
             {
-                subCamera.transform.position = new Vector3(player.transform.position.x, subCamera.transform.position.y, player.transform.position.z);
+                droneCamera.transform.position = new Vector3(player.transform.position.x, droneCamera.transform.position.y, player.transform.position.z);
             }
-            subCamera.enabled = isOperation;
+            droneCamera.enabled = isOperation;
         }
     }
 }
