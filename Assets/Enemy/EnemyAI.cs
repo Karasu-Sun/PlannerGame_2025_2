@@ -43,6 +43,18 @@ namespace kawanaka
         [Tooltip("調査時間（秒）")]
         [SerializeField] private float searchDuration = 3f;
 
+        [Header("移動加減速（這い動き）設定")]
+        [Tooltip("通常のベース移動速度")]
+        [SerializeField] private float baseSpeed = 2.5f;
+
+        [Tooltip("速度の増減幅（±で適用）")]
+        [SerializeField] private float speedAmplitude = 1.0f;
+
+        [Tooltip("加減速の周期（秒）")]
+        [SerializeField] private float speedCycleDuration = 2.0f;
+
+        private float speedTimeElapsed = 0f;
+
         // 内部状態管理
         [HideInInspector] private float lastSeenPlayerTime = Mathf.NegativeInfinity;
         [HideInInspector] private NavMeshAgent agent;
@@ -79,6 +91,9 @@ namespace kawanaka
 
         private void Update()
         {
+            speedTimeElapsed += Time.deltaTime;
+            UpdateAgentSpeed();
+
             if (player == null || patrolPoints.Count == 0) return;
 
             if (isLookingAtPlayer)
@@ -114,6 +129,15 @@ namespace kawanaka
                     StartLookingAtPlayer();
                 }
             }
+        }
+
+        private void UpdateAgentSpeed()
+        {
+            if (agent == null) return;
+
+            float t = (speedTimeElapsed / speedCycleDuration) * Mathf.PI * 2f;
+            float speedFactor = 1.0f + Mathf.Sin(t) * (speedAmplitude / baseSpeed);
+            agent.speed = baseSpeed * speedFactor;
         }
 
         private void StartInvestigating(Vector3 position)
