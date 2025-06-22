@@ -10696,9 +10696,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2012159625691714594, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
+      propertyPath: airMoveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012159625691714594, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: playerCenter
       value: 
       objectReference: {fileID: 202734528}
+    - target: {fileID: 2012159625691714594, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
+      propertyPath: groundMoveSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2371545059575228016, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: noiseRadius
       value: 10
