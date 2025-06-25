@@ -20,7 +20,7 @@ namespace sei_kawanaka_Fix
         {
             if (!droneActivator.isOperation)
             {
-                droneCamera.transform.position = new Vector3(player.transform.position.x, 15.0f, player.transform.position.z);
+                droneCamera.transform.position = new Vector3(player.transform.position.x, 30.0f, player.transform.position.z);
             }
         }
     }
