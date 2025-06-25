@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276807, g: 0.21589197, b: 0.29782572, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1879,7 +1879,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &499227948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4417,7 +4417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1069550999
 Transform:
   m_ObjectHideFlags: 0
@@ -5655,6 +5655,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  moveMode: 0
+  smoothTime: 0.3
+  springStiffness: 10
+  springDamping: 2
+  inertiaValue: 3
   playerStatusManager: {fileID: 1995223043}
 --- !u!4 &1393488678
 Transform:
@@ -9786,7 +9791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11055,6 +11060,7 @@ SceneRoots:
   - {fileID: 166709116}
   - {fileID: 5316880211771038585}
   - {fileID: 1393488678}
+  - {fileID: 512095198}
   - {fileID: 1978318007}
   - {fileID: 499227951}
   - {fileID: 1670494528}
@@ -11062,5 +11068,4 @@ SceneRoots:
   - {fileID: 1069550999}
   - {fileID: 1746088229}
   - {fileID: 2132838131}
-  - {fileID: 512095198}
   - {fileID: 1781326639}

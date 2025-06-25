@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace kawanaka
+namespace kawanaka_Goatn_Fix
 {
     public class GameClearManager : MonoBehaviour
     {
