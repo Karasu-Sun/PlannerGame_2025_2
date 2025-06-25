@@ -11,9 +11,9 @@ namespace kawanaka
         IsJump,
         IsWalk,
         IsAttack,
-        IsCottonHold,
         IsOperation,
-        IsOption
+        IsOption,
+        IsCrouch
     }
 
     public class PlayerStatusManager : MonoBehaviour

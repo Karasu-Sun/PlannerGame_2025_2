@@ -96,8 +96,11 @@ GameObject:
   - component: {fileID: 4140239192571191433}
   - component: {fileID: 3939649235820450538}
   - component: {fileID: 5296151340629592923}
+  - component: {fileID: 4880119283068625325}
   - component: {fileID: 6018512482828744047}
   - component: {fileID: 226654492922923875}
+  - component: {fileID: 4798837649459516038}
+  - component: {fileID: 1537779714455892733}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -219,6 +222,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &4880119283068625325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847014243583382608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfda109169a18d4d819e94873e4f47f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusList: []
 --- !u!114 &6018512482828744047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +262,7 @@ MonoBehaviour:
   obstacleCheckDistance: 2
   playerCheckInterval: 1
   lookAtDuration: 1
+  forgetPlayerTime: 5
 --- !u!195 &226654492922923875
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -268,3 +285,30 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4798837649459516038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847014243583382608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291c12929e45e974b8ee02327c66700f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusManager: {fileID: 4880119283068625325}
+--- !u!114 &1537779714455892733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847014243583382608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74bb97b1fae1342b06b99654cb54c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  enemyStatusManager: {fileID: 4880119283068625325}

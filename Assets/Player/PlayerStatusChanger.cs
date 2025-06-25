@@ -46,7 +46,7 @@ namespace kawanaka
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                SEManager.Instance.PlaySE_Blocking(0);
+                if (playerStatusManager.GetStatus(PlayerStatusType.IsOption)) return;
 
                 bool isOperating = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
 
@@ -55,6 +55,8 @@ namespace kawanaka
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                if (playerStatusManager.GetStatus(PlayerStatusType.IsOperation)) return;
+
                 bool isPausing = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
 
                 playerStatusManager.SetStatus(PlayerStatusType.IsOption, !isPausing);
