@@ -10,8 +10,11 @@ namespace sei_kawanaka_Fix
     {
         [SerializeField] private DroneDroneActivator droneActivator;
 
-        [Header("有効化対象/Y軸位置")]
+        [Header("有効化対象")]
         [SerializeField] private Camera droneCamera;
+
+        [Header("Y軸位置")]
+        [SerializeField] float cameraY = 30.0f;
 
         [Header("プレイヤーとする位置")]
         [SerializeField] private GameObject player;
@@ -20,7 +23,7 @@ namespace sei_kawanaka_Fix
         {
             if (!droneActivator.isOperation)
             {
-                droneCamera.transform.position = new Vector3(player.transform.position.x, 30.0f, player.transform.position.z);
+                droneCamera.transform.position = new Vector3(player.transform.position.x, cameraY, player.transform.position.z);
             }
         }
     }

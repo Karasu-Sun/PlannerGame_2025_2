@@ -13,6 +13,7 @@ namespace sei_kawanaka_Fix
         [SerializeField] private PlayerStatusManager playerStatusManager;
 
         [Header("—LŒø‰»‘ÎÛ")]
+        [SerializeField] private GameObject droneCameraLight;
         [SerializeField] private Camera droneCamera;
 
         public bool isOperation;
@@ -20,6 +21,7 @@ namespace sei_kawanaka_Fix
         private void Update()
         {
             isOperation = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
+            droneCameraLight.SetActive(isOperation);
             droneCamera.enabled = isOperation;
         }
     }
