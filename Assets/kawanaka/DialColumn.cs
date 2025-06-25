@@ -16,6 +16,8 @@ namespace kawanaka
         private bool isDragging = false;
         private float dragStartY;
 
+        [SerializeField] private float transferCoefficient = 200.0f;
+
         private void Start()
         {
             targetRotation = Quaternion.Euler(currentValue * -rotationStep, 0, 0);
@@ -45,7 +47,7 @@ namespace kawanaka
 
             float dragDelta = Input.mousePosition.y - dragStartY;
 
-            if (Mathf.Abs(dragDelta) > 60f)
+            if (Mathf.Abs(dragDelta) > transferCoefficient)
             {
                 if (dragDelta > 0)
                     RotateDial(-1); // ãƒhƒ‰ƒbƒO ¨ ”šŒ¸

@@ -8,12 +8,12 @@ namespace kawanaka
     {
         [SerializeField] private PlayerStatusManager playerStatusManager;
 
-        void Start()
+        private void Start()
         {
             LockCursor();
         }
 
-        void Update()
+        private void Update()
         {
             // ƒƒbƒN‰ğœ
             if (playerStatusManager.GetStatus(PlayerStatusType.IsOption))
