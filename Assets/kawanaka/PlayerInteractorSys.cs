@@ -6,57 +6,79 @@ namespace kawanaka
 {
     public class PlayerInteractorSys : MonoBehaviour
     {
-        public float interactRange = 5f;
-        public LayerMask interactableLayer;
-        public KeyCode interactKey = KeyCode.E;
+        //public float interactRange = 5f;
+        //public LayerMask interactableLayer;
+        //public KeyCode interactKey = KeyCode.E;
 
-        [Header("Gizmo•\Ž¦")]
-        public bool showInteractGizmo = true;
-        public Color gizmoColor = Color.green;
+        //[Header("Gizmo•\Ž¦")]
+        //public bool showInteractGizmo = true;
+        //public Color gizmoColor = Color.green;
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(interactKey))
-            {
-                TryInteract();
-            }
-        }
+        //[SerializeField] private PlayerStatusManager playerStatusManager;
 
-        public float interactAngle = 60f;
+        //private void Update()
+        //{
+        //    if (Input.GetKeyDown(interactKey))
+        //    {
+        //        TryInteract();
+        //    }
 
-        private void TryInteract()
-        {
-            Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, interactableLayer);
+        //    if (playerStatusManager != null && playerStatusManager.GetStatus(PlayerStatusType.IsInteracting))
+        //    {
+        //        LockToTargetPosition();
+        //    }
+        //}
 
-            foreach (var hit in hits)
-            {
-                Vector3 toTarget = hit.transform.position - transform.position;
-                float angle = Vector3.Angle(transform.forward, toTarget);
+        //public float interactAngle = 60f;
 
-                if (angle <= interactAngle * 0.5f)
-                {
-                    InteractableObject interactable = hit.GetComponent<InteractableObject>();
-                    if (interactable != null)
-                    {
-                        interactable.Interact();
-                        break;
-                    }
-                }
-            }
-        }
+        //private void TryInteract()
+        //{
+        //    Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, interactableLayer);
 
-        private void OnDrawGizmosSelected()
-        {
-            if (!showInteractGizmo) return;
+        //    foreach (var hit in hits)
+        //    {
+        //        Vector3 toTarget = hit.transform.position - transform.position;
+        //        float angle = Vector3.Angle(transform.forward, toTarget);
 
-            Gizmos.color = gizmoColor;
+        //        if (angle <= interactAngle * 0.5f)
+        //        {
+        //            InteractableObject interactable = hit.GetComponent<InteractableObject>();
+        //            if (interactable != null)
+        //            {
+        //                interactable.Interact(gameObject);
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
-            Gizmos.DrawWireSphere(transform.position, interactRange);
+        //private void LockToTargetPosition()
+        //{
+        //    Transform target = ;
 
-            Vector3 left = Quaternion.Euler(0, -interactAngle * 0.5f, 0) * transform.forward;
-            Vector3 right = Quaternion.Euler(0, interactAngle * 0.5f, 0) * transform.forward;
-            Gizmos.DrawLine(transform.position, transform.position + left * interactRange);
-            Gizmos.DrawLine(transform.position, transform.position + right * interactRange);
-        }
+        //    if (target != null)
+        //    {
+        //        Vector3 offset = -target.forward * 1.0f;
+        //        transform.position = target.position + offset;
+
+        //        Vector3 lookPos = target.position;
+        //        lookPos.y = transform.position.y;
+        //        transform.LookAt(lookPos);
+        //    }
+        //}
+
+        //private void OnDrawGizmosSelected()
+        //{
+        //    if (!showInteractGizmo) return;
+
+        //    Gizmos.color = gizmoColor;
+
+        //    Gizmos.DrawWireSphere(transform.position, interactRange);
+
+        //    Vector3 left = Quaternion.Euler(0, -interactAngle * 0.5f, 0) * transform.forward;
+        //    Vector3 right = Quaternion.Euler(0, interactAngle * 0.5f, 0) * transform.forward;
+        //    Gizmos.DrawLine(transform.position, transform.position + left * interactRange);
+        //    Gizmos.DrawLine(transform.position, transform.position + right * interactRange);
+        //}
     }
 }
