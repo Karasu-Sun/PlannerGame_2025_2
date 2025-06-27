@@ -6,12 +6,16 @@ namespace kawanaka
 {
     public class InteractableObject : MonoBehaviour
     {
-        [Header("メッセージ")]
-        public string interactMessage = "何かがある...";
+        [SerializeField] private PlayerStatusManager playerStatusManager;
 
-        public virtual void Interact()
+        public virtual void Interact(GameObject player)
         {
-            Debug.Log($"{interactMessage}");
+            if (playerStatusManager != null)
+            {
+                playerStatusManager.SetStatus(PlayerStatusType.IsInteracting, true);
+            }
+
+            Debug.Log("インタラクト開始");
         }
     }
 }
