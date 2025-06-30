@@ -17,5 +17,14 @@ namespace kawanaka
 
             Debug.Log("インタラクト開始");
         }
+        public virtual void UnInteract(GameObject player)
+        {
+            if (playerStatusManager != null)
+            {
+                playerStatusManager.SetStatus(PlayerStatusType.IsInteracting, false);
+            }
+
+            Debug.Log("インタラクト終了");
+        }
     }
 }
