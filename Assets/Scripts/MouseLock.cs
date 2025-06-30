@@ -16,7 +16,7 @@ namespace kawanaka
         private void Update()
         {
             // ƒƒbƒN‰ğœ
-            if (playerStatusManager.GetStatus(PlayerStatusType.IsOption))
+            if (playerStatusManager.GetStatus(PlayerStatusType.IsOption) || playerStatusManager.GetStatus(PlayerStatusType.IsInteracting))
             {
                 UnlockCursor();
             }

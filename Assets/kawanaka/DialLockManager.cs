@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,12 @@ namespace kawanaka
         [Header("正解コード（4桁）")]
         [SerializeField] private int[] correctCode = new int[4];
 
+        [SerializeField] private bool debug_isUnlocked;
         public bool isUnlocked { get; private set; } = false;
 
         private void Update()
         {
+            debug_isUnlocked = isUnlocked;
             if (isUnlocked) return;
 
             bool match = true;
@@ -32,6 +35,7 @@ namespace kawanaka
             {
                 isUnlocked = true;
                 Debug.Log("開錠成功！");
+                SEManager.Instance.PlaySE(1);
                 // 任意の処理（開けるアニメーションなど）
             }
         }
