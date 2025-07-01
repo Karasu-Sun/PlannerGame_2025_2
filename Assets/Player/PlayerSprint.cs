@@ -99,7 +99,7 @@ namespace kawanaka
             // スタミナ残量が減るほどvignetteの強度を上げる
             float staminaRatio = currentStamina / maxStamina;
             float intensityMin = 0.25f;
-            float intensityMax = 0.35f;
+            float intensityMax = 0.5f;
 
             vignette.intensity.value = Mathf.Lerp(intensityMax, intensityMin, staminaRatio);
         }

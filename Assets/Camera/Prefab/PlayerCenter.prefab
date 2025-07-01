@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 726815296896839961}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -202,6 +202,8 @@ GameObject:
   - component: {fileID: 4116234094917377259}
   - component: {fileID: 1815112294216758862}
   - component: {fileID: 136980940278245387}
+  - component: {fileID: 379248392723361147}
+  - component: {fileID: 7446158169434929372}
   m_Layer: 0
   m_Name: PlayerCenter
   m_TagString: Untagged
@@ -305,11 +307,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a4d9baf572a104ebc36e3eb0da5397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 2
+  rotationSpeed: 1
   rotationY: 0
   playerStatusManager: {fileID: 0}
   isOperating: 0
   isPausing: 0
+  playerModel: {fileID: 0}
 --- !u!114 &1815112294216758862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,14 +325,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b85db67b6d8712478c2aa2896195281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactRange: 1.5
+  interactRange: 2
+  interactAngle: 70
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
   interactKey: 101
+  interactCancelKey: 101
   showInteractGizmo: 1
   gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  interactAngle: 60
+  playerStatusManager: {fileID: 0}
 --- !u!135 &136980940278245387
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -351,6 +356,44 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.49999997
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &379248392723361147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789016156446172300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b0efb5be9c2e947956afffef75046b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStatusManager: {fileID: 0}
+  targetScript: {fileID: 4116234094917377259}
+  newRotationSpeed: 0
+  newRotationY: 90
+--- !u!114 &7446158169434929372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789016156446172300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d1b1abeb055eb4084eba2c07de026e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStatusManager: {fileID: 0}
+  sprintStatus: 9
+  walkStatus: 3
+  crouchStatus: 7
+  sprintBobAmplitude: 0.1
+  sprintBobFrequency: 10
+  walkBobAmplitude: 0.02
+  walkBobFrequency: 10
+  crouchBobAmplitude: 0
+  crouchBobFrequency: 2
 --- !u!1 &8711376359893608106
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +420,7 @@ Transform:
   m_GameObject: {fileID: 8711376359893608106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

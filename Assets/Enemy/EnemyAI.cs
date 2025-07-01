@@ -45,7 +45,7 @@ namespace kawanaka
 
         [Header("移動加減速（這い動き）設定")]
         [Tooltip("通常のベース移動速度")]
-        [SerializeField] private float baseSpeed = 2.5f;
+        [SerializeField] public float baseSpeed = 2.5f;
 
         [Tooltip("速度の増減幅（±で適用）")]
         [SerializeField] private float speedAmplitude = 1.0f;
@@ -80,12 +80,8 @@ namespace kawanaka
             statusChanger = GetComponent<EnemyStatusChanger>();
         }
 
-        [SerializeField] EnemyNavAgentController enemyNavAgentController;
-
         private void Start()
         {
-            baseSpeed = enemyNavAgentController.normalSpeed;
-
             if (patrolPoints.Count > 0)
             {
                 GoToNextPatrolPoint();
@@ -115,7 +111,6 @@ namespace kawanaka
             if (isChasing)
             {
                 ChasePlayer();
-                baseSpeed = enemyNavAgentController.chaseSpeed;
             }
             else if (isInvestigating)
             {
@@ -331,9 +326,9 @@ namespace kawanaka
         {
             Vector3[] directions =
             {
-            transform.right,
-            -transform.right
-        };
+                transform.right,
+                -transform.right
+            };
 
             foreach (Vector3 dir in directions)
             {
@@ -423,13 +418,6 @@ namespace kawanaka
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(transform.position, transform.position + leftRay);
             Gizmos.DrawLine(transform.position, transform.position + rightRay);
-        }
-
-        public void Die()
-        {
-            agent.isStopped = true;
-            enabled = false;
-            statusChanger?.SetOnlyStatus(EnemyStatusType.IsDead);
         }
     }
 }
