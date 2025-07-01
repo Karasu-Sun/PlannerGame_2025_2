@@ -260,17 +260,20 @@ namespace kawanaka
 
         private void GoToNextPatrolPoint()
         {
-            // 一定確率で固定ポイントに行く
-            if (Random.value < fixedPatrolChance && fixedPatrolPoint != null)
+            if (patrolPoints == null || patrolPoints.Count == 0)
             {
-                agent.SetDestination(fixedPatrolPoint.position);
+                Debug.LogWarning("パトロールポイントが設定されていません");
                 return;
             }
 
-            if (dynamicPatrolPoints.Count == 0) return;
+            if (currentPatrolIndex < 0 || currentPatrolIndex >= patrolPoints.Count)
+            {
+                currentPatrolIndex = 0;
+            }
 
-            agent.SetDestination(dynamicPatrolPoints[currentPatrolIndex].position);
-            currentPatrolIndex = (currentPatrolIndex + 1) % dynamicPatrolPoints.Count;
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+
+            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Count;
         }
 
         private void StartLookingAtPlayer()

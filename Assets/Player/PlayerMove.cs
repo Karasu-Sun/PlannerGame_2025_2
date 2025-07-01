@@ -57,8 +57,8 @@ namespace kawanaka
             Vector3 movementInput = new Vector3(horizontal, 0, vertical).normalized;
             Vector3 moveDirection = playerCenter.forward * movementInput.z + playerCenter.right * movementInput.x;
 
-            // ‚µ‚á‚ª‚İ”»’èi¶Control‰Ÿ‰ºj
-            bool isCrouch = Input.GetKey(KeyCode.LeftControl);
+            // ‚µ‚á‚ª‚İ”»’è
+            bool isCrouch = Input.GetMouseButton(1);
 
             // ‚µ‚á‚ª‚İ‚Í‘¬“x‚ğŒ¸‘¬
             float currentGroundSpeed = groundMoveSpeed;

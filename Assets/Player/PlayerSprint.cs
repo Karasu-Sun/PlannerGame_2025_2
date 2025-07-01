@@ -87,26 +87,17 @@ namespace kawanaka
             UpdateStaminaSE();
         }
 
-        private int currentSEIndex = -1;
+        private int currentStaminaSEIndex = -1;
 
         private void UpdateStaminaSE()
         {
-            int nextSE = -1;
+            int nextSE = currentStamina < maxStamina * 0.7f ? 3 : 2;
 
-            if (currentStamina < (maxStamina * 0.7f))
+            if (nextSE != currentStaminaSEIndex)
             {
-                nextSE = 3;
-            }
-            else
-            {
-                nextSE = 2;
-            }
-
-            if (nextSE != currentSEIndex)
-            {
-                SEManager.Instance.StopSE();
-                SEManager.Instance.PlaySE_Looping(nextSE);
-                currentSEIndex = nextSE;
+                SEManager.Instance.StopSE(SECategory.Stamina);
+                SEManager.Instance.PlaySE_Looping(nextSE, SECategory.Stamina);
+                currentStaminaSEIndex = nextSE;
             }
         }
 
