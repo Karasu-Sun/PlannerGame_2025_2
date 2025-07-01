@@ -8,7 +8,7 @@ namespace kawanaka
     public class EnemyNavAgentController : MonoBehaviour
     {
         [Header("éQè∆")]
-        [SerializeField] private NavMeshAgent agent;
+        [SerializeField] private EnemyAI enemyAI;
         [SerializeField] private EnemyStatusManager enemyStatusManager;
 
         [Header("ë¨ìxê›íË")]
@@ -17,10 +17,10 @@ namespace kawanaka
 
         private void Update()
         {
-            if (enemyStatusManager == null || agent == null) return;
+            if (enemyStatusManager == null || enemyAI == null) return;
 
             bool isChasing = enemyStatusManager.GetStatus(EnemyStatusType.IsChase);
-            agent.speed = isChasing ? chaseSpeed : normalSpeed;
+            enemyAI.baseSpeed = isChasing ? chaseSpeed : normalSpeed;
         }
     }
 }
