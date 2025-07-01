@@ -17,6 +17,8 @@ namespace kawanaka
 
         [SerializeField] private SEManager sEManager;
 
+        //[SerializeField] private MouseLock mouseLock;
+
         private void Update()
         {
             isPausing = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
@@ -28,6 +30,17 @@ namespace kawanaka
             {
                 Time.timeScale = isPausing ? 0 : 1;
                 volumeControl.ToggleVolumePanel();
+
+                // ÉJÅ[É\Éãêßå‰
+                //if (isPausing)
+                //{
+                //    mouseLock.UnlockCursor();
+                //}
+                //else
+                //{
+                //    mouseLock.LockCursor();
+                //}
+
                 previousPausingState = isPausing;
             }
         }

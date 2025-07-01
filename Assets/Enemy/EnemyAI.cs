@@ -80,8 +80,12 @@ namespace kawanaka
             statusChanger = GetComponent<EnemyStatusChanger>();
         }
 
+        [SerializeField] EnemyNavAgentController enemyNavAgentController;
+
         private void Start()
         {
+            baseSpeed = enemyNavAgentController.normalSpeed;
+
             if (patrolPoints.Count > 0)
             {
                 GoToNextPatrolPoint();
@@ -111,6 +115,7 @@ namespace kawanaka
             if (isChasing)
             {
                 ChasePlayer();
+                baseSpeed = enemyNavAgentController.chaseSpeed;
             }
             else if (isInvestigating)
             {
