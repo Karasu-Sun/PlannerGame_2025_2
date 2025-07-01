@@ -70,7 +70,8 @@ namespace kawanaka
             switch (moveMode)
             {
                 case MoveMode.Lerp:
-                    transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
+                    float t = 1f - Mathf.Exp(-moveSpeed * Time.deltaTime);
+                    transform.position = Vector3.Lerp(transform.position, targetPosition, t);
                     break;
 
                 case MoveMode.SmoothDamp:

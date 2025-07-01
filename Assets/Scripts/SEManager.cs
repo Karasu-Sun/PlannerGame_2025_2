@@ -27,6 +27,16 @@ namespace kawanaka
                 Destroy(gameObject);
             }
         }
+        public AudioClip GetClip(int index)
+        {
+            if (index >= 0 && index < soundEffects.Length)
+            {
+                return soundEffects[index];
+            }
+
+            Debug.LogWarning($"SE Clipが見つかりません: Index {index}");
+            return null;
+        }
 
         // インデックス指定でSEを再生する
         public void PlaySE(int index)
@@ -78,6 +88,37 @@ namespace kawanaka
 
             if (index >= 0 && index < soundEffects.Length && soundEffects[index] != null)
             {
+                StartCoroutine(PlayAndWait(soundEffects[index]));
+            }
+            else
+            {
+                Debug.LogWarning($"SEが見つかりません: Index {index}");
+            }
+        }
+        public void PlaySE_Looping(int index)
+        {
+            if (audioSource.clip != soundEffects[index])
+            {
+                audioSource.clip = soundEffects[index];
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+
+        public void StopSE()
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+                isPlayingSE = false;
+            }
+        }
+
+        public void PlaySE_Force(int index)
+        {
+            if (index >= 0 && index < soundEffects.Length && soundEffects[index] != null)
+            {
+                StopSE();
                 StartCoroutine(PlayAndWait(soundEffects[index]));
             }
             else
