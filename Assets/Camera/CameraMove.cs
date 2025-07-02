@@ -49,20 +49,6 @@ namespace kawanaka
             moveSpeedMultiplier = Mathf.Clamp01(multiplier);
         }
 
-        private float moveSpeedMultiplier = 1f;
-
-        public void SetMoveSpeedMultiplier(float multiplier)
-        {
-            moveSpeedMultiplier = Mathf.Clamp01(multiplier);
-        }
-
-        private float moveSpeedMultiplier = 1f;
-
-        public void SetMoveSpeedMultiplier(float multiplier)
-        {
-            moveSpeedMultiplier = Mathf.Clamp01(multiplier);
-        }
-
         private void MoveCamera()
         {
             // “ü—ÍŽæ“¾

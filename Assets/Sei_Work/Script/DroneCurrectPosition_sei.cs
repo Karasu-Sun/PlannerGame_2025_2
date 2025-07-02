@@ -11,7 +11,7 @@ namespace sei
 {
     public class DroneCorrectPosition_sei : MonoBehaviour
     {
-        [SerializeField] private DroneDroneActivator droneActivator;
+        [SerializeField] private DroneActivator droneActivator;
 
         [Header("—LŒø‰»‘ÎÛ")]
         [SerializeField] private Camera droneCamera;
