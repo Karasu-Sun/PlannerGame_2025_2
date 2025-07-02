@@ -26,6 +26,7 @@ namespace kawanaka
         private Vector3 springVelocity;
         private Vector3 inputDirection;
 
+        //private Vector3 dronePosition;
         private void Update()
         {
             if (!playerStatusManager.GetStatus(PlayerStatusType.IsOperation))
@@ -38,6 +39,7 @@ namespace kawanaka
             }
 
             MoveCamera();
+            
         }
 
         private float moveSpeedMultiplier = 1f;
@@ -88,6 +90,9 @@ namespace kawanaka
 
             // äµê´èàóù
             inputDirection = Vector3.Lerp(inputDirection, Vector3.zero, Time.deltaTime * inertiaValue);
+
+            /*dronePosition = transform.position;
+            Debug.Log(dronePosition);*/
         }
     }
 }
