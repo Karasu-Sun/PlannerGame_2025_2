@@ -88,7 +88,7 @@ namespace kawanaka
 
         private void Start()
         {
-            if (patrolPoints.Count > 0)
+            if (GetCurrentPatrolPoints().Count > 0)
             {
                 GoToNextPatrolPoint();
                 statusChanger?.SetOnlyStatus(EnemyStatusType.IsWalk);
@@ -100,7 +100,7 @@ namespace kawanaka
             speedTimeElapsed += Time.deltaTime;
             UpdateAgentSpeed();
 
-            if (player == null || patrolPoints.Count == 0) return;
+            if (player == null || GetCurrentPatrolPoints().Count == 0) return;
 
             if (isLookingAtPlayer)
             {
@@ -136,15 +136,20 @@ namespace kawanaka
                 }
             }
         }
+
         public void SetDynamicPatrolPoints(List<Transform> newPoints)
         {
-            // 古いポイントを削除
-            foreach (var p in dynamicPatrolPoints)
+            // まず現在のポイントを破棄
+            if (dynamicPatrolPoints != null)
             {
-                if (p != null) Destroy(p.gameObject);
+                foreach (var p in dynamicPatrolPoints)
+                {
+                    if (p != null) Destroy(p.gameObject);
+                }
             }
 
-            dynamicPatrolPoints = newPoints;
+            dynamicPatrolPoints = new List<Transform>(newPoints);
+
             currentPatrolIndex = 0;
             GoToNextPatrolPoint();
         }
@@ -260,20 +265,21 @@ namespace kawanaka
 
         private void GoToNextPatrolPoint()
         {
-            if (patrolPoints == null || patrolPoints.Count == 0)
+            var currentPoints = GetCurrentPatrolPoints();
+            if (currentPoints == null || currentPoints.Count == 0)
             {
                 Debug.LogWarning("パトロールポイントが設定されていません");
                 return;
             }
 
-            if (currentPatrolIndex < 0 || currentPatrolIndex >= patrolPoints.Count)
+            if (currentPatrolIndex < 0 || currentPatrolIndex >= currentPoints.Count)
             {
                 currentPatrolIndex = 0;
             }
 
-            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+            agent.SetDestination(currentPoints[currentPatrolIndex].position);
 
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Count;
+            currentPatrolIndex = (currentPatrolIndex + 1) % currentPoints.Count;
         }
 
         private void StartLookingAtPlayer()
@@ -408,14 +414,22 @@ namespace kawanaka
             return Physics.Raycast(transform.position, direction, obstacleCheckDistance);
         }
 
+        private List<Transform> GetCurrentPatrolPoints()
+        {
+            return (dynamicPatrolPoints != null && dynamicPatrolPoints.Count > 0)
+                ? dynamicPatrolPoints
+                : patrolPoints;
+        }
+
         private int GetNearestPatrolPointIndex()
         {
             int nearest = 0;
             float minDist = float.MaxValue;
 
-            for (int i = 0; i < patrolPoints.Count; i++)
+            var currentPoints = GetCurrentPatrolPoints();
+            for (int i = 0; i < currentPoints.Count; i++)
             {
-                float dist = Vector3.Distance(transform.position, patrolPoints[i].position);
+                float dist = Vector3.Distance(transform.position, currentPoints[i].position);
                 if (dist < minDist)
                 {
                     nearest = i;
