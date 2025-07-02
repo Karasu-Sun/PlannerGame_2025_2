@@ -33,7 +33,5 @@ public class DialManager : MonoBehaviour
                 Debug.Log(digitCurrent);
             }
         }
-
-        //if ()
     }
 }
