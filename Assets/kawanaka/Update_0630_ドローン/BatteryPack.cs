@@ -9,13 +9,24 @@ namespace kawanaka
     {
         [SerializeField] private float rechargeAmount = 30f;
 
+        [SerializeField] private TypewriterText typewriterText;
+        [SerializeField] private int TextNum;
+
         private void OnTriggerEnter(Collider other)
         {
-            DroneBatterySystem drone = other.GetComponent<DroneBatterySystem>();
-            if (drone != null)
+            if (other.CompareTag("Player"))
             {
-                drone.RechargeBattery(rechargeAmount);
-                Destroy(gameObject);
+                // ドローンバッテリーの取得
+                DroneBatterySystem drone = other.GetComponent<DroneBatterySystem>();
+
+                // テキスト表示
+                typewriterText.StartTypingByIndex(TextNum);
+
+                if (drone != null)
+                {
+                    drone.RechargeBattery(rechargeAmount);
+                    Destroy(gameObject);
+                }
             }
         }
     }

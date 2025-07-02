@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -83,6 +84,21 @@ namespace kawanaka
             }
 
             UpdateVignetteIntensity();
+            UpdateStaminaSE();
+        }
+
+        private int currentStaminaSEIndex = -1;
+
+        private void UpdateStaminaSE()
+        {
+            int nextSE = currentStamina < maxStamina * 0.7f ? 3 : 2;
+
+            if (nextSE != currentStaminaSEIndex)
+            {
+                SEManager.Instance.StopSE(SECategory.Stamina);
+                SEManager.Instance.PlaySE_Looping(nextSE, SECategory.Stamina);
+                currentStaminaSEIndex = nextSE;
+            }
         }
 
         // スタミナ増加アイテム用

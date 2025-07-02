@@ -55,6 +55,12 @@ namespace kawanaka
 
         private float speedTimeElapsed = 0f;
 
+        [Header("巡回設定")]
+        [Tooltip("巡回管理")]
+        [SerializeField] private Transform fixedPatrolPoint;
+        private List<Transform> dynamicPatrolPoints = new List<Transform>();
+        private float fixedPatrolChance = 0.2f;
+
         // 内部状態管理
         [HideInInspector] private float lastSeenPlayerTime = Mathf.NegativeInfinity;
         [HideInInspector] private NavMeshAgent agent;
@@ -130,6 +136,18 @@ namespace kawanaka
                 }
             }
         }
+        public void SetDynamicPatrolPoints(List<Transform> newPoints)
+        {
+            // 古いポイントを削除
+            foreach (var p in dynamicPatrolPoints)
+            {
+                if (p != null) Destroy(p.gameObject);
+            }
+
+            dynamicPatrolPoints = newPoints;
+            currentPatrolIndex = 0;
+            GoToNextPatrolPoint();
+        }
 
         private void UpdateAgentSpeed()
         {
@@ -143,7 +161,18 @@ namespace kawanaka
         private void StartInvestigating(Vector3 position)
         {
             isInvestigating = true;
-            investigatePosition = position;
+
+            // 位置補正
+            if (NavMesh.SamplePosition(position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+            {
+                investigatePosition = hit.position;
+            }
+            else
+            {
+                // 補正できなければ元の位置を使う
+                investigatePosition = position;
+            }
+
             agent.SetDestination(investigatePosition);
             investigateStartTime = 0f;
             statusChanger?.SetOnlyStatus(EnemyStatusType.IsSuspicious);
@@ -151,12 +180,10 @@ namespace kawanaka
 
         private void Investigate()
         {
-            float distance = Vector3.Distance(transform.position, investigatePosition);
-
-            if (distance > agent.stoppingDistance + 0.2f)
+            if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance + 0.2f)
                 return;
 
-            if (investigateStartTime == 0f)
+            if (investigateStartTime <= 0f)
             {
                 investigateStartTime = Time.time;
                 agent.ResetPath();
@@ -233,7 +260,19 @@ namespace kawanaka
 
         private void GoToNextPatrolPoint()
         {
+            if (patrolPoints == null || patrolPoints.Count == 0)
+            {
+                Debug.LogWarning("パトロールポイントが設定されていません");
+                return;
+            }
+
+            if (currentPatrolIndex < 0 || currentPatrolIndex >= patrolPoints.Count)
+            {
+                currentPatrolIndex = 0;
+            }
+
             agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Count;
         }
 
