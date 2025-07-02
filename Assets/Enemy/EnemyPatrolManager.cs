@@ -41,9 +41,11 @@ namespace kawanaka
             }
         }
 
+        [SerializeField] public List<Transform> patrolPoints;
+
         private void GenerateAndAssignPatrolPoints()
         {
-            List<Transform> patrolPoints = GeneratePatrolPoints();
+            patrolPoints = GeneratePatrolPoints();
 
             foreach (var enemy in enemies)
             {
