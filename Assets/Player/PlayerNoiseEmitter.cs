@@ -9,21 +9,19 @@ namespace kawanaka
         [Tooltip("’Êí‚Ì‰¹‚Ì‰e‹¿”ÍˆÍi”¼Œaj")]
         [SerializeField] private float normalNoiseRadius = 5f;
 
-        [Tooltip("‰¹‚Ì‰e‹¿”ÍˆÍi—}§j")]
+        [Tooltip("‚µ‚á‚ª‚İ‚Ì‰¹‚Ì‰e‹¿”ÍˆÍi”¼Œaj")]
         [SerializeField] private float squatNoiseRadius = 2f;
+
+        [Tooltip("ƒXƒvƒŠƒ“ƒg‚Ì‰¹‚Ì‰e‹¿”ÍˆÍi”¼Œaj")]
+        [SerializeField] private float sprintNoiseRadius = 8f;
 
         [Tooltip("ƒmƒCƒY‚ğo‚·ŠÔŠui•bj")]
         [SerializeField] private float noiseInterval = 0.5f;
 
         private float nextNoiseTime = 0f;
-        private PlayerStatusManager playerStatusManager;
-
         private float lastEmitTime = Mathf.NegativeInfinity;
 
-        private void Awake()
-        {
-            playerStatusManager = GetComponent<PlayerStatusManager>();
-        }
+        [SerializeField] private PlayerStatusManager playerStatusManager;
 
         private void Update()
         {
@@ -41,19 +39,33 @@ namespace kawanaka
 
         private void EmitNoise()
         {
-            float currentNoiseRadius = Input.GetKey(KeyCode.LeftShift) ? squatNoiseRadius : normalNoiseRadius;
-
+            float currentNoiseRadius = GetCurrentNoiseRadius();
             NoiseEmitter.EmitNoise(transform.position, currentNoiseRadius);
             lastEmitTime = Time.time;
         }
 
+        private float GetCurrentNoiseRadius()
+        {
+            if (playerStatusManager == null)
+                return normalNoiseRadius;
+
+            if (playerStatusManager.GetStatus(PlayerStatusType.IsSprint))
+                return sprintNoiseRadius;
+            else if (playerStatusManager.GetStatus(PlayerStatusType.IsCrouch))
+                return squatNoiseRadius;
+            else
+                return normalNoiseRadius;
+        }
+
         private void OnDrawGizmosSelected()
         {
-            float currentNoiseRadius = Input.GetKey(KeyCode.LeftShift) ? squatNoiseRadius : normalNoiseRadius;
+            if (playerStatusManager == null) return;
+
+            float currentNoiseRadius = GetCurrentNoiseRadius();
 
             Color gizmoColor = (Time.time - lastEmitTime <= 0.2f)
-                ? new Color(1f, 0f, 0f, 0.4f)  // Ô
-                : new Color(1f, 1f, 0f, 0.3f); // ‰©
+                ? new Color(1f, 0f, 0f, 0.4f)
+                : new Color(1f, 1f, 0f, 0.3f);
 
             Gizmos.color = gizmoColor;
             Gizmos.DrawWireSphere(transform.position, currentNoiseRadius);

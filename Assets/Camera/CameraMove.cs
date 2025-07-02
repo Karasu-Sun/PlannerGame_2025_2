@@ -42,6 +42,20 @@ namespace kawanaka
             
         }
 
+        private float moveSpeedMultiplier = 1f;
+
+        public void SetMoveSpeedMultiplier(float multiplier)
+        {
+            moveSpeedMultiplier = Mathf.Clamp01(multiplier);
+        }
+
+        private float moveSpeedMultiplier = 1f;
+
+        public void SetMoveSpeedMultiplier(float multiplier)
+        {
+            moveSpeedMultiplier = Mathf.Clamp01(multiplier);
+        }
+
         private void MoveCamera()
         {
             // “ü—ÍŽæ“¾
@@ -60,12 +74,13 @@ namespace kawanaka
                 inputDirection = rawInput;
             }
 
-            Vector3 targetPosition = transform.position + inputDirection * moveSpeed * Time.deltaTime;
+            Vector3 targetPosition = transform.position + inputDirection * moveSpeed * moveSpeedMultiplier * Time.deltaTime;
 
             switch (moveMode)
             {
                 case MoveMode.Lerp:
-                    transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
+                    float t = 1f - Mathf.Exp(-moveSpeed * Time.deltaTime);
+                    transform.position = Vector3.Lerp(transform.position, targetPosition, t);
                     break;
 
                 case MoveMode.SmoothDamp:

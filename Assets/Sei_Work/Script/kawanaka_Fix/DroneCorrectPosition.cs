@@ -8,7 +8,7 @@ namespace sei_kawanaka_Fix
 {
     public class DroneCorrectPosition : MonoBehaviour
     {
-        [SerializeField] private DroneDroneActivator droneActivator;
+        [SerializeField] private kawanakaver2.DroneActivator droneActivator;
 
         [Header("—LŒø‰»‘ÎÛ")]
         [SerializeField] private Camera droneCamera;

@@ -8,7 +8,7 @@ using kawanaka;
 
 namespace sei_kawanaka_Fix
 {
-    public class DroneDroneActivator : MonoBehaviour
+    public class DroneActivator : MonoBehaviour
     {
         [SerializeField] private PlayerStatusManager playerStatusManager;
 

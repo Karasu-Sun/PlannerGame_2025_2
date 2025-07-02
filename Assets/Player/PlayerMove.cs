@@ -11,13 +11,20 @@ namespace kawanaka
 
         public float groundMoveSpeed = 5.0f;
         public float crouchSpeedMultiplier = 0.5f;
+        public float sprintSpeedMultiplier = 5.0f;
 
         public float airMoveSpeed = 2.0f;
-        public float stepHeight = 0.5f; // 段差の許容範囲
+        public float stepHeight = 0.5f;
 
         public float rotationSpeed = 0.2f;
 
-        public Transform playerCenter; // PlayerCenterオブジェクトを参照
+        public Transform playerCenter;
+
+        [Tooltip("後退移動速度補正")]
+        [SerializeField] private float backWalkMultiplier = 0.3f;
+
+        [Tooltip("スプリント時移動速度補正")]
+        [SerializeField] private float sprintSpeedRate = 1.5f;
 
         private void Awake()
         {
@@ -32,13 +39,14 @@ namespace kawanaka
                 // 操作中断中
                 return;
             }
+
             MovePlayer();
         }
 
         public void IncreaseSpeedPermanently(float amount)
         {
             groundMoveSpeed += amount;
-            airMoveSpeed += amount / 2; // 空中移動速度は少し控えめに上昇
+            airMoveSpeed += amount / 2;
         }
 
         private void MovePlayer()
@@ -49,18 +57,19 @@ namespace kawanaka
             Vector3 movementInput = new Vector3(horizontal, 0, vertical).normalized;
             Vector3 moveDirection = playerCenter.forward * movementInput.z + playerCenter.right * movementInput.x;
 
-            // しゃがみ判定（左Shift押下）
-            bool isCrouch = Input.GetKey(KeyCode.LeftShift);
+            // しゃがみ判定
+            bool isCrouch = Input.GetMouseButton(1);
 
             // しゃがみ時は速度を減速
             float currentGroundSpeed = groundMoveSpeed;
             float currentAirSpeed = airMoveSpeed;
+
             if (isCrouch)
             {
                 currentGroundSpeed *= crouchSpeedMultiplier;
                 currentAirSpeed *= crouchSpeedMultiplier;
 
-                // しゃがみ状態をステータスマネージャーに伝える（任意）
+                // しゃがみ状態をステータスマネージャーに伝える
                 playerStatusManager.SetStatus(PlayerStatusType.IsCrouch, true);
             }
             else
@@ -68,35 +77,39 @@ namespace kawanaka
                 playerStatusManager.SetStatus(PlayerStatusType.IsCrouch, false);
             }
 
-            // 進行方向にプレイヤーを回転させる
-            if (moveDirection.magnitude > 0)
+            // 後退時速度補正
+            if (movementInput.z < 0f)
             {
-                // 移動方向に向かって回転
+                currentGroundSpeed *= backWalkMultiplier;
+                currentAirSpeed *= backWalkMultiplier;
+            }
+
+            // スプリント状態を確認し、補正を適用
+            if (playerStatusManager.GetStatus(PlayerStatusType.IsSprint))
+            {
+                currentGroundSpeed *= sprintSpeedRate;
+                currentAirSpeed *= sprintSpeedRate;
+            }
+
+            // スピード選択
+            bool isGrounded = playerStatusManager.GetStatus(PlayerStatusType.IsGround);
+            float moveSpeed = isGrounded ? currentGroundSpeed : currentAirSpeed;
+
+            // Rigidbodyで移動
+            Vector3 targetVelocity = moveDirection * moveSpeed;
+            playerRb.velocity = new Vector3(targetVelocity.x, playerRb.velocity.y, targetVelocity.z);
+
+            // 回転処理
+            if (moveDirection.magnitude > 0.01f)
+            {
                 Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
             }
 
-            // 移動していない場合、歩行状態をfalseに設定
-            if (movementInput.magnitude > 0)
-            {
-                playerStatusManager.SetStatus(PlayerStatusType.IsWalk, true);
-            }
-            else
-            {
-                playerStatusManager.SetStatus(PlayerStatusType.IsWalk, false);
-            }
+            // 歩行ステータス
+            playerStatusManager.SetStatus(PlayerStatusType.IsWalk, movementInput.magnitude > 0);
 
-            // 地面にいる時の移動
-            if (playerStatusManager.GetStatus(PlayerStatusType.IsGround))
-            {
-                playerRb.velocity = new Vector3(moveDirection.x * currentGroundSpeed, playerRb.velocity.y, moveDirection.z * currentGroundSpeed);
-            }
-            else
-            {
-                playerRb.velocity = new Vector3(moveDirection.x * currentAirSpeed, playerRb.velocity.y, moveDirection.z * currentAirSpeed);
-            }
-
-            // レイを可視化
+            // 段差対応（Raycast）
             Vector3 rayStart = transform.position + Vector3.up * 0.1f;
             Vector3 rayDirection = moveDirection.normalized;
 
