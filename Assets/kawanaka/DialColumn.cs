@@ -18,6 +18,8 @@ namespace kawanaka
 
         [SerializeField] private float transferCoefficient = 200.0f;
 
+        [SerializeField] private DialLockManager dialLockManager;
+
         private void Start()
         {
             targetRotation = Quaternion.Euler(currentValue * -rotationStep, 0, 0);
@@ -43,18 +45,24 @@ namespace kawanaka
 
         private void OnMouseDrag()
         {
-            if (!isDragging) return;
+            if (!isDragging || dialLockManager.isUnlocked) return;
 
             float dragDelta = Input.mousePosition.y - dragStartY;
 
             if (Mathf.Abs(dragDelta) > transferCoefficient)
             {
                 if (dragDelta > 0)
+                {
                     RotateDial(-1); // 上ドラッグ → 数字減
+                    SEManager.Instance.PlaySE(7);
+                }
                 else
+                {
                     RotateDial(1);  // 下ドラッグ → 数字増
+                    SEManager.Instance.PlaySE(7);
+                }
 
-                dragStartY = Input.mousePosition.y;
+            dragStartY = Input.mousePosition.y;
             }
         }
 

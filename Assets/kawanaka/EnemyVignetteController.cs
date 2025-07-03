@@ -14,6 +14,8 @@ namespace kawanaka
         [SerializeField] private PostProcessVolume postProcessVolume;
         private Vignette vignette;
 
+        public bool isChase;
+
         private void Start()
         {
             if (postProcessVolume != null)
@@ -27,7 +29,7 @@ namespace kawanaka
 
         private void Update()
         {
-            bool isChase = false;
+            isChase = false;
             bool isSuspicious = false;
 
             foreach (var enemyStatusManager in enemyStatusManagers)
@@ -68,11 +70,12 @@ namespace kawanaka
             }
         }
 
-        private int currentSeriousSEIndex = -1;
+        [SerializeField] public int currentSeriousSEIndex = -1;
 
         private void UpdateSeriousSE()
         {
             int nextSE = 4;
+
             foreach (var enemyStatusManager in enemyStatusManagers)
             {
                 if (enemyStatusManager.GetStatus(EnemyStatusType.IsChase))
@@ -88,10 +91,18 @@ namespace kawanaka
 
             if (nextSE != currentSeriousSEIndex)
             {
-                SEManager.Instance.StopSE(SECategory.Serious);
-                SEManager.Instance.PlaySE_Looping(nextSE, SECategory.Serious);
+                SEManager.Instance.StopSE(SECategory.Serious, 0.5f);
+
+                StartCoroutine(PlayDelayedSeriousSE(nextSE, 0.5f));
+
                 currentSeriousSEIndex = nextSE;
             }
+        }
+
+        private IEnumerator PlayDelayedSeriousSE(int seIndex, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            SEManager.Instance.PlaySE_Looping(seIndex, SECategory.Serious);
         }
 
         private void ApplyVignette(Color color, float intensity)

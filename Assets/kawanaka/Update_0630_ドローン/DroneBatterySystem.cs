@@ -12,15 +12,14 @@ namespace kawanaka
         [SerializeField] private float currentBattery = 100f;
 
         [Header("ドローン状態")]
-        [SerializeField] private bool isActive;
+        [SerializeField] public bool isActive;
 
         public float Battery => currentBattery;
-
-        public bool IsActive { get; set; } = false;
+        public bool IsActive => isActive; // 参照用
 
         private void Update()
         {
-            if (IsActive)
+            if (isActive)
             {
                 DrainBattery();
                 if (currentBattery <= 0f)
@@ -66,4 +65,5 @@ namespace kawanaka
             Debug.Log("ドローンを手動で停止しました。");
         }
     }
+
 }

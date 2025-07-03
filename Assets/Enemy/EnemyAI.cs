@@ -59,7 +59,6 @@ namespace kawanaka
         [Tooltip("èÑâÒä«óù")]
         [SerializeField] private Transform fixedPatrolPoint;
         private List<Transform> dynamicPatrolPoints = new List<Transform>();
-        private float fixedPatrolChance = 0.2f;
 
         // ì‡ïîèÛë‘ä«óù
         [HideInInspector] private float lastSeenPlayerTime = Mathf.NegativeInfinity;
@@ -102,6 +101,21 @@ namespace kawanaka
 
             if (player == null || GetCurrentPatrolPoints().Count == 0) return;
 
+            if (IsPlayerInSight())
+            {
+                if (!isChasing)
+                {
+                    isChasing = true;
+                    isLookingAtPlayer = false;
+                    isInvestigating = false;
+                    isSearching = false;
+                    lastKnownPlayerPosition = player.position;
+                    hasUnreachedPlayerPosition = true;
+                    statusChanger?.SetOnlyStatus(EnemyStatusType.IsChase);
+                    agent.SetDestination(player.position);
+                }
+            }
+
             if (isLookingAtPlayer)
             {
                 LookAtPlayer();
@@ -129,11 +143,6 @@ namespace kawanaka
             else
             {
                 Patrol();
-
-                if (IsPlayerInSight())
-                {
-                    StartLookingAtPlayer();
-                }
             }
         }
 

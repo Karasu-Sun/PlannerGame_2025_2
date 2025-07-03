@@ -34,7 +34,7 @@ namespace kawanakaver2
             droneCamera.enabled = isOperation;
 
             // ƒhƒ[ƒ“‚Ì‰Ò“­ó‘Ô
-            batterySystem.IsActive = isOperation;
+            batterySystem.isActive = isOperation;
         }
     }
 }

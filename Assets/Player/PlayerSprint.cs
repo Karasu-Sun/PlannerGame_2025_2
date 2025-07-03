@@ -88,6 +88,7 @@ namespace kawanaka
         }
 
         private int currentStaminaSEIndex = -1;
+        private Coroutine staminaSECoroutine = null;
 
         private void UpdateStaminaSE()
         {
@@ -95,10 +96,23 @@ namespace kawanaka
 
             if (nextSE != currentStaminaSEIndex)
             {
-                SEManager.Instance.StopSE(SECategory.Stamina);
-                SEManager.Instance.PlaySE_Looping(nextSE, SECategory.Stamina);
+                if (staminaSECoroutine != null)
+                {
+                    StopCoroutine(staminaSECoroutine);
+                    staminaSECoroutine = null;
+                }
+
+                staminaSECoroutine = StartCoroutine(FadeOutAndPlaySE(nextSE, SECategory.Stamina, 0.5f));
+
                 currentStaminaSEIndex = nextSE;
             }
+        }
+
+        private IEnumerator FadeOutAndPlaySE(int seIndex, SECategory category, float fadeTime)
+        {
+            SEManager.Instance.StopSE(category, fadeTime);
+            yield return new WaitForSeconds(fadeTime);
+            SEManager.Instance.PlaySE_Looping(seIndex, category);
         }
 
         // スタミナ増加アイテム用

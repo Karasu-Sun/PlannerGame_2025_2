@@ -10,6 +10,8 @@ namespace kawanaka
         Main,
         Stamina,
         Serious,
+        Effect,
+        System,
         Environment
     }
 
@@ -127,7 +129,9 @@ namespace kawanaka
                 StartCoroutine(PlayAndWait(source, clip));
             }
         }
-    　　
+
+        private HashSet<SECategory> loopingCategories = new HashSet<SECategory>();
+
         public void PlaySE_Looping(int index, SECategory category = SECategory.Main)
         {
             if (!sourceMap.TryGetValue(category, out var source)) return;
@@ -140,39 +144,73 @@ namespace kawanaka
                 source.clip = clip;
                 source.loop = true;
                 source.Play();
+
+                loopingCategories.Add(category); // ループ中の記録
             }
         }
 
-        public void StopSE(SECategory category = SECategory.Main)
+        private Dictionary<SECategory, Coroutine> fadeOutCoroutines = new Dictionary<SECategory, Coroutine>();
+
+        public void StopSE(SECategory category = SECategory.Main, float fadeTime = 0.5f)
         {
-            if (sourceMap.TryGetValue(category, out var source))
+            if (!sourceMap.TryGetValue(category, out var source)) return;
+
+            if (source.isPlaying)
             {
-                if (source.isPlaying)
+                if (fadeOutCoroutines.ContainsKey(category))
                 {
-                    source.Stop();
-                    source.clip = null;
-                    source.loop = false;
+                    StopCoroutine(fadeOutCoroutines[category]);
                 }
+
+                fadeOutCoroutines[category] = StartCoroutine(FadeOutAndStop(source, category, fadeTime));
             }
 
             if (category == SECategory.Main)
                 isPlayingSE = false;
         }
 
-        public void StopSE_Index(int index, SECategory category = SECategory.Main)
+        public void StopSE_Index(int index, SECategory category = SECategory.Main, float fadeTime = 0.5f)
         {
             if (!sourceMap.TryGetValue(category, out var source)) return;
 
             AudioClip clip = GetClip(index);
-            if (source.clip == clip)
+            if (source.clip == clip && source.isPlaying)
             {
-                source.Stop();
-                source.clip = null;
-                source.loop = false;
+                if (fadeOutCoroutines.ContainsKey(category))
+                {
+                    StopCoroutine(fadeOutCoroutines[category]);
+                }
+
+                fadeOutCoroutines[category] = StartCoroutine(FadeOutAndStop(source, category, fadeTime));
 
                 if (category == SECategory.Main)
                     isPlayingSE = false;
             }
+        }
+
+        private IEnumerator FadeOutAndStop(AudioSource source, SECategory category, float fadeTime)
+        {
+            float startVolume = source.volume;
+            float timer = 0f;
+
+            while (timer < fadeTime)
+            {
+                timer += Time.deltaTime;
+                float t = timer / fadeTime;
+                source.volume = Mathf.Lerp(startVolume, 0f, t);
+                yield return null;
+            }
+
+            source.Stop();
+            source.volume = startVolume;
+
+            if (!loopingCategories.Contains(category))
+            {
+                source.clip = null;
+                source.loop = false;
+            }
+
+            fadeOutCoroutines.Remove(category);
         }
 
         public void PlaySE_Force(int index, SECategory category = SECategory.Main)

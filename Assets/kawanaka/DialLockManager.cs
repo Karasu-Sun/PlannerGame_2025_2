@@ -59,10 +59,9 @@ namespace kawanaka
             {
                 isUnlocked = true;
                 playerStatusManager.SetStatus(PlayerStatusType.IsInteracting, false);
-                Debug.Log("開錠成功！");
+                //Debug.Log("開錠成功！");
                 SEManager.Instance.PlaySE(1);
                 typewriterText.StartTypingByIndex(TextNum);
-                // 任意の処理（開けるアニメーションなど）
             }
         }
     }

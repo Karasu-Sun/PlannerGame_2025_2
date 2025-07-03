@@ -39,9 +39,6 @@ namespace kawanaka
             }
         }
 
-        //(‰¼)
-        [SerializeField] private SEManager sEManager;
-
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
