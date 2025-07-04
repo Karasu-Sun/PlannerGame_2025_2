@@ -42,6 +42,7 @@ namespace kawanaka
                 {
                     isPlayerInRange = true;
                     SEManager.Instance.PlaySE_Looping(seIndex, category);
+                    //Debug.Log("çƒê∂");
                 }
             }
             else
@@ -50,6 +51,7 @@ namespace kawanaka
                 {
                     isPlayerInRange = false;
                     SEManager.Instance.StopSE_Index(seIndex, category);
+                    //Debug.Log("çƒê∂í‚é~");
                 }
             }
         }
