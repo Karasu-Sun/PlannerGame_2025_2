@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static kawanaka.SEManager;
 
 namespace kawanaka
 {
@@ -14,12 +15,13 @@ namespace kawanaka
         [SerializeField] private int seIndex = 8;
         [SerializeField] private SECategory category = SECategory.Effect;
 
-        [Header("発動距離")]
-        [SerializeField] private float triggerDistance = 10f;
+        [Header("発動距離（半径）")]
+        [SerializeField] private float triggerRadius = 10f;
+
+        [Header("敵ステータスの参照")]
+        [SerializeField] private EnemyStatusManager enemyStatusManager;
 
         private bool isPlayerInRange = false;
-
-        [SerializeField] private EnemyVignetteController enemyVignetteController;
 
         private void Start()
         {
@@ -27,33 +29,57 @@ namespace kawanaka
             {
                 Debug.LogWarning("プレイヤーが未設定", this);
             }
+
+            if (enemyStatusManager == null)
+            {
+                Debug.LogWarning("EnemyStatusManager が未設定", this);
+            }
         }
 
         private void Update()
         {
-            if (player == null) return;
-            if (enemyVignetteController.isChase) return;
+            if (player == null || enemyStatusManager == null) return;
+
+            if (enemyStatusManager.GetStatus(EnemyStatusType.IsChase))
+            {
+                StopSEIfNeeded();
+                return;
+            }
 
             float distance = Vector3.Distance(transform.position, player.position);
 
-            if (distance <= triggerDistance)
+            if (distance <= triggerRadius)
             {
-                if (!isPlayerInRange)
-                {
-                    isPlayerInRange = true;
-                    SEManager.Instance.PlaySE_Looping(seIndex, category);
-                    //Debug.Log("再生");
-                }
+                PlaySEIfNeeded();
             }
             else
             {
-                if (isPlayerInRange)
-                {
-                    isPlayerInRange = false;
-                    SEManager.Instance.StopSE_Index(seIndex, category);
-                    //Debug.Log("再生停止");
-                }
+                StopSEIfNeeded();
             }
+        }
+
+        private void PlaySEIfNeeded()
+        {
+            if (!isPlayerInRange)
+            {
+                isPlayerInRange = true;
+                SEManager.Instance.PlaySE_Looping(seIndex, category);
+            }
+        }
+
+        private void StopSEIfNeeded()
+        {
+            if (isPlayerInRange)
+            {
+                isPlayerInRange = false;
+                SEManager.Instance.StopSE_Index(seIndex, category);
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
+            Gizmos.DrawSphere(transform.position, triggerRadius);
         }
     }
 }
