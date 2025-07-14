@@ -32629,7 +32629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff01d8db14b742546a2fe726983e3129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droneActivator: {fileID: 1656404889}
+  droneActivator: {fileID: 0}
   droneCamera: {fileID: 324675475}
   cameraY: 30
   player: {fileID: 1576277481}
@@ -32649,8 +32649,10 @@ MonoBehaviour:
   maxDistance: 20
   playerStatusManager: {fileID: 1576277479}
   droneCamera: {fileID: 324675475}
+  droneMove: {fileID: 0}
   showGizmo: 1
   gizmoColor: {r: 1, g: 0.5, b: 0, a: 0.25}
+  minSpeedMultiplier: 0.2
 --- !u!114 &324675480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75862,7 +75864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChanger: {fileID: 1457353284}
-  sceneFadeOut: {fileID: 866964604}
+  sceneFader: {fileID: 0}
   sceneIndexToLoad: 0
 --- !u!1001 &765171203
 PrefabInstance:
@@ -112273,6 +112275,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 6cb232efb1a92ad46b7194e64213cf85, type: 2}
   BGMvolumeParameter: BGMVolume
   SEvolumeParameter: SEVolume
+  fadeSpeed: 5
 --- !u!1001 &1170178220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -138420,9 +138423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c6ddbf35d70e6429fe2140d664b6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1309105404}
   soundEffects:
   - {fileID: 8300000, guid: 59788639a4527dc43a75706669533d14, type: 3}
+  categorySources: []
   isPlayingSE: 0
 --- !u!4 &1444307037
 Transform:
@@ -152369,9 +152372,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumeControl: {fileID: 1168339542}
   playerStatusManager: {fileID: 1576277479}
-  isPausing: 0
-  previousPausingState: 0
-  sEManager: {fileID: 1444307036}
+  playerTag: Player
+  playerSearchInterval: 1
 --- !u!1001 &1630066090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -198500,10 +198502,10 @@ SceneRoots:
   - {fileID: 1604397221}
   - {fileID: 842101156}
   - {fileID: 1808410286}
+  - {fileID: 494892860}
   - {fileID: 1897701198}
   - {fileID: 1576277478}
   - {fileID: 764886118}
-  - {fileID: 494892860}
   - {fileID: 1302240707}
   - {fileID: 750263089}
   - {fileID: 1444307037}
