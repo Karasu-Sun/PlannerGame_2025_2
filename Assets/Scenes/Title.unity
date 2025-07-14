@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17276807, g: 0.21589197, b: 0.29782572, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -63666,6 +63666,7 @@ MonoBehaviour:
   postProcessVolume: {fileID: 1746088228}
   defaultProfile: {fileID: 11400000, guid: 9c2f196d1f68a0f46a33c9e1286fa48a, type: 2}
   optionProfile: {fileID: 11400000, guid: 347a2d133d2c28b43bfc00097aaaaa47, type: 2}
+  playerSprint: {fileID: 0}
   playerStatusManager: {fileID: 1388617388}
 --- !u!4 &668517018
 Transform:
