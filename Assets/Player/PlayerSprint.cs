@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using static kawanaka.SEManager;
@@ -14,17 +12,9 @@ namespace kawanaka
         [Header("スタミナ設定")]
         [SerializeField] private float maxStamina = 100f;
         [SerializeField] private float currentStamina = 100f;
-
-        [Tooltip("減少速度")]
         [SerializeField] private float staminaDecreaseRate = 20f;
-
-        [Tooltip("回復速度")]
         [SerializeField] private float staminaRecoverRate = 15f;
-
-        [Tooltip("必要最低スタミナ")]
         [SerializeField] private float requiredLowestStamina = 10f;
-
-        [Tooltip("しゃがみ時回復倍率")]
         [SerializeField] private float crouchRecoverMultiplier = 2f;
 
         [Header("Vignette設定")]
@@ -37,7 +27,10 @@ namespace kawanaka
         {
             if (postProcessVolume != null)
             {
-                postProcessVolume.profile.TryGetSettings(out vignette);
+                if (postProcessVolume.profile.TryGetSettings(out vignette))
+                {
+                    vignette.intensity.overrideState = true;
+                }
             }
         }
 
@@ -45,12 +38,12 @@ namespace kawanaka
         {
             bool isSprinting = Input.GetKey(KeyCode.LeftShift) && playerStatusManager.GetStatus(PlayerStatusType.IsWalk);
             bool isCrouch = playerStatusManager.GetStatus(PlayerStatusType.IsCrouch);
+            bool isOption = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
 
             if (isSprinting && !isRecoveringOnly && currentStamina > 0f)
             {
                 currentStamina -= staminaDecreaseRate * Time.deltaTime;
                 currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-
                 playerStatusManager.SetStatus(PlayerStatusType.IsSprint, true);
 
                 if (currentStamina <= 0f)
@@ -61,12 +54,10 @@ namespace kawanaka
             }
             else
             {
-                // スプリント中でなければ回復
-                if (!isSprinting)
+                if (!isSprinting && !isOption)
                 {
                     float recoverRate = staminaRecoverRate;
 
-                    // しゃがみ時回復加速
                     if (isCrouch)
                     {
                         recoverRate *= crouchRecoverMultiplier;
@@ -104,7 +95,6 @@ namespace kawanaka
                 }
 
                 staminaSECoroutine = StartCoroutine(FadeOutAndPlaySE(nextSE, SECategory.Stamina, 0.5f));
-
                 currentStaminaSEIndex = nextSE;
             }
         }
@@ -116,25 +106,28 @@ namespace kawanaka
             SEManager.Instance.PlaySE_Looping(seIndex, category);
         }
 
-        // スタミナ増加アイテム用
         public void IncreaseMaxStamina(float amount)
         {
             maxStamina += amount;
             currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
         }
 
+        public float staminaRatio;
+
         private void UpdateVignetteIntensity()
         {
             if (vignette == null) return;
 
-            // スタミナ残量が減るほどvignetteの強度を上げる
-            float staminaRatio = currentStamina / maxStamina;
-            float intensityMin = 0.25f;
-            float intensityMax = 0.65f;
+            vignette.intensity.overrideState = true;
+
+            staminaRatio = Mathf.Clamp01(currentStamina / maxStamina);
+            float intensityMin = 0.15f;
+            float intensityMax = 0.50f;
 
             vignette.intensity.value = Mathf.Lerp(intensityMax, intensityMin, staminaRatio);
         }
 
+        public float GetCurrentRatio() => staminaRatio;
         public float GetCurrentStamina() => currentStamina;
         public float GetMaxStamina() => maxStamina;
     }
