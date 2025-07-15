@@ -25,12 +25,6 @@ namespace kawanaka
         [SerializeField] private float crouchBobFrequency = 4f;
 
         private float bobTimer = 0f;
-        private Vector3 originalPosition;
-
-        private void Start()
-        {
-            originalPosition = transform.localPosition;
-        }
 
         private void Update()
         {
@@ -46,25 +40,25 @@ namespace kawanaka
             {
                 bobTimer += Time.deltaTime * sprintBobFrequency;
                 float bobOffset = Mathf.Sin(bobTimer) * sprintBobAmplitude;
-                transform.localPosition = new Vector3(currentPos.x, originalPosition.y + bobOffset, currentPos.z);
+                transform.localPosition = new Vector3(currentPos.x, transform.localPosition.y + bobOffset, currentPos.z);
             }
             else if (isWalking)
             {
                 bobTimer += Time.deltaTime * walkBobFrequency;
                 float bobOffset = Mathf.Sin(bobTimer) * walkBobAmplitude;
-                transform.localPosition = new Vector3(currentPos.x, originalPosition.y + bobOffset, currentPos.z);
+                transform.localPosition = new Vector3(currentPos.x, transform.localPosition.y + bobOffset, currentPos.z);
             }
             else if (isCrouching)
             {
                 bobTimer += Time.deltaTime * crouchBobFrequency;
                 float bobOffset = Mathf.Sin(bobTimer) * crouchBobAmplitude;
-                transform.localPosition = new Vector3(currentPos.x, originalPosition.y + bobOffset, currentPos.z);
+                transform.localPosition = new Vector3(currentPos.x, transform.localPosition.y + bobOffset, currentPos.z);
             }
             else
             {
                 // ”ñˆÚ“®Žž‚ÍŒ³‚ÌˆÊ’u‚É–ß‚·
                 bobTimer = 0f;
-                Vector3 targetPos = new Vector3(currentPos.x, originalPosition.y, currentPos.z);
+                Vector3 targetPos = new Vector3(currentPos.x, transform.localPosition.y, currentPos.z);
                 transform.localPosition = Vector3.Lerp(currentPos, targetPos, Time.deltaTime * 10f);
             }
         }
