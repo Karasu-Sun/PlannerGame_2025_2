@@ -49,13 +49,13 @@ namespace kawanaka
             }
 
             // ビネット強度を動的に変化させる場合はここで vignette にアクセス可能
-            if (!isOption && vignette != null)
-            {
-                float staminaRatio = Mathf.Clamp01(playerSprint.GetCurrentRatio());
-                float intensityMin = 0.2f;
-                float intensityMax = 0.5f;
-                vignette.intensity.value = Mathf.Lerp(intensityMax, intensityMin, staminaRatio);
-            }
+            //if (!isOption && vignette != null)
+            //{
+            //    float staminaRatio = Mathf.Clamp01(playerSprint.GetCurrentRatio());
+            //    float intensityMin = 0.1f;
+            //    float intensityMax = 0.1f;
+            //    vignette.intensity.value = Mathf.Lerp(intensityMax, intensityMin, staminaRatio);
+            //}
         }
     }
 }

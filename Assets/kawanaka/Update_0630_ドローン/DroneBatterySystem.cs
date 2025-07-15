@@ -65,5 +65,4 @@ namespace kawanaka
             Debug.Log("ƒhƒ[ƒ“‚ğè“®‚Å’â~‚µ‚Ü‚µ‚½B");
         }
     }
-
 }
