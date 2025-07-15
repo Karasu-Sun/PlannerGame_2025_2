@@ -58,6 +58,18 @@ namespace kawanaka
 
                 playerStatusManager.SetStatus(PlayerStatusType.IsOption, !isPausing);
             }
+
+            bool lightInput = Input.GetMouseButton(2);
+
+            if (lightInput)
+            {
+                playerStatusManager.SetStatus(PlayerStatusType.IsLighting, true);
+            }
+            else
+            {
+                playerStatusManager.SetStatus(PlayerStatusType.IsLighting, false);
+
+            }
         }
     }
 }
