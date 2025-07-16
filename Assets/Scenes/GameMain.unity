@@ -9352,15 +9352,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5221073222601359407, guid: 559a891b1ca223940ab2646e14a6f4f9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.8
+      value: -12.76
       objectReference: {fileID: 0}
     - target: {fileID: 5221073222601359407, guid: 559a891b1ca223940ab2646e14a6f4f9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.75
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 5221073222601359407, guid: 559a891b1ca223940ab2646e14a6f4f9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -54.7
+      value: -11.14
       objectReference: {fileID: 0}
     - target: {fileID: 5221073222601359407, guid: 559a891b1ca223940ab2646e14a6f4f9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -204349,6 +204349,10 @@ PrefabInstance:
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 379248392723361147, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
+      propertyPath: newRotationY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 379248392723361147, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
       propertyPath: playerStatusManager
       value: 
       objectReference: {fileID: 1995223043}
@@ -204861,11 +204865,11 @@ PrefabInstance:
       objectReference: {fileID: 1889897989}
     - target: {fileID: 6750696535302851364, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: offset.y
-      value: 0
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6750696535302851364, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: offset.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7411673479177550805, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: m_Name
