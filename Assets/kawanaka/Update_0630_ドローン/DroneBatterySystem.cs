@@ -13,6 +13,7 @@ namespace kawanaka
 
         [Header("ドローン状態")]
         [SerializeField] public bool isActive;
+        [SerializeField] private PlayerStatusManager playerStatusManager;
 
         public float Battery => currentBattery;
         public bool IsActive => isActive; // 参照用
@@ -56,6 +57,7 @@ namespace kawanaka
         public void ShutdownDrone()
         {
             isActive = false;
+            playerStatusManager.SetStatus(PlayerStatusType.IsOperation, false); // ドローン停止時に操作状態を解除
             Debug.Log("ドローンがバッテリー切れで停止しました。");
         }
 
