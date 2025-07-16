@@ -18,7 +18,8 @@ namespace kawanaka
             Effect,      // 特殊効果系
             System,      // UIやシステム操作音
             BgmLike,     // BGM的な音扱い
-            Environment  // 環境音など
+            Environment,  // 環境音など
+            Footsteps,   // 足音系
         }
 
         [System.Serializable]

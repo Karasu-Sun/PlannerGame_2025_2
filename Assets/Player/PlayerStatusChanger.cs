@@ -7,7 +7,8 @@ namespace kawanaka
     public class PlayerStatusChanger : MonoBehaviour
     {
         private PlayerStatusManager playerStatusManager;
-
+        [SerializeField]
+        private DroneBatterySystem DroneBatterySystem;
         private void Awake()
         {
             playerStatusManager = GetComponent<PlayerStatusManager>();
@@ -41,10 +42,11 @@ namespace kawanaka
 
         private void Update()
         {
+            float DroneBattery = DroneBatterySystem.Battery;
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 if (playerStatusManager.GetStatus(PlayerStatusType.IsOption)) return;
-
+                if (DroneBattery <= 0) return;
                 bool isOperating = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
 
                 playerStatusManager.SetStatus(PlayerStatusType.IsOperation, !isOperating);
