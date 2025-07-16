@@ -15,7 +15,8 @@ namespace kawanaka
         IsOption,
         IsCrouch,
         IsInteracting,
-        IsSprint
+        IsSprint,
+        IsLighting
     }
 
     public class PlayerStatusManager : MonoBehaviour

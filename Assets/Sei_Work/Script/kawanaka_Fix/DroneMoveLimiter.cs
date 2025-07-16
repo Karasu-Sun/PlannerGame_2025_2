@@ -13,7 +13,7 @@ namespace sei_kawanaka_Fix
         [SerializeField] private Transform player;
 
         [Header("ˆÚ“®‰Â”\‹——£ (XZ•½–Ê)")]
-        [SerializeField] private float maxDistance = 15f;
+        [SerializeField] public float maxDistance = 15f;
 
         [SerializeField] private PlayerStatusManager playerStatusManager;
 

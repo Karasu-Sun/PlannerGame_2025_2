@@ -39,9 +39,6 @@ namespace kawanaka
             }
         }
 
-        //(‰¼)
-        [SerializeField] private SEManager sEManager;
-
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
@@ -60,6 +57,18 @@ namespace kawanaka
                 bool isPausing = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
 
                 playerStatusManager.SetStatus(PlayerStatusType.IsOption, !isPausing);
+            }
+
+            bool lightInput = Input.GetMouseButton(2);
+
+            if (lightInput)
+            {
+                playerStatusManager.SetStatus(PlayerStatusType.IsLighting, true);
+            }
+            else
+            {
+                playerStatusManager.SetStatus(PlayerStatusType.IsLighting, false);
+
             }
         }
     }

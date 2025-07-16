@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using static kawanaka.SEManager;
 
 namespace kawanaka
 {
@@ -13,17 +12,9 @@ namespace kawanaka
         [Header("スタミナ設定")]
         [SerializeField] private float maxStamina = 100f;
         [SerializeField] private float currentStamina = 100f;
-
-        [Tooltip("減少速度")]
         [SerializeField] private float staminaDecreaseRate = 20f;
-
-        [Tooltip("回復速度")]
         [SerializeField] private float staminaRecoverRate = 15f;
-
-        [Tooltip("必要最低スタミナ")]
         [SerializeField] private float requiredLowestStamina = 10f;
-
-        [Tooltip("しゃがみ時回復倍率")]
         [SerializeField] private float crouchRecoverMultiplier = 2f;
 
         [Header("Vignette設定")]
@@ -36,7 +27,10 @@ namespace kawanaka
         {
             if (postProcessVolume != null)
             {
-                postProcessVolume.profile.TryGetSettings(out vignette);
+                if (postProcessVolume.profile.TryGetSettings(out vignette))
+                {
+                    vignette.intensity.overrideState = true;
+                }
             }
         }
 
@@ -44,12 +38,12 @@ namespace kawanaka
         {
             bool isSprinting = Input.GetKey(KeyCode.LeftShift) && playerStatusManager.GetStatus(PlayerStatusType.IsWalk);
             bool isCrouch = playerStatusManager.GetStatus(PlayerStatusType.IsCrouch);
+            bool isOption = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
 
             if (isSprinting && !isRecoveringOnly && currentStamina > 0f)
             {
                 currentStamina -= staminaDecreaseRate * Time.deltaTime;
                 currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-
                 playerStatusManager.SetStatus(PlayerStatusType.IsSprint, true);
 
                 if (currentStamina <= 0f)
@@ -60,12 +54,10 @@ namespace kawanaka
             }
             else
             {
-                // スプリント中でなければ回復
-                if (!isSprinting)
+                if (!isSprinting && !isOption)
                 {
                     float recoverRate = staminaRecoverRate;
 
-                    // しゃがみ時回復加速
                     if (isCrouch)
                     {
                         recoverRate *= crouchRecoverMultiplier;
@@ -88,6 +80,7 @@ namespace kawanaka
         }
 
         private int currentStaminaSEIndex = -1;
+        private Coroutine staminaSECoroutine = null;
 
         private void UpdateStaminaSE()
         {
@@ -95,31 +88,61 @@ namespace kawanaka
 
             if (nextSE != currentStaminaSEIndex)
             {
-                SEManager.Instance.StopSE(SECategory.Stamina);
-                SEManager.Instance.PlaySE_Looping(nextSE, SECategory.Stamina);
+                if (staminaSECoroutine != null)
+                {
+                    StopCoroutine(staminaSECoroutine);
+                    staminaSECoroutine = null;
+                }
+
+                staminaSECoroutine = StartCoroutine(FadeOutAndPlaySE(nextSE, SECategory.Stamina, 0.5f));
                 currentStaminaSEIndex = nextSE;
             }
         }
 
-        // スタミナ増加アイテム用
+        private IEnumerator FadeOutAndPlaySE(int seIndex, SECategory category, float fadeTime)
+        {
+            SEManager.Instance.StopSE(category, fadeTime);
+            yield return new WaitForSeconds(fadeTime);
+            SEManager.Instance.PlaySE_Looping(seIndex, category);
+        }
+
         public void IncreaseMaxStamina(float amount)
         {
             maxStamina += amount;
             currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
         }
 
+        [SerializeField] private RectTransform vignetteImageTransform;
+        [SerializeField] private float minScale = 2.0f;
+        [SerializeField] private float maxScale = 5.3f;
+
+
+        [SerializeField] private float intensityMin = 0.1f;
+        [SerializeField] private float intensityMax = 0.1f;
+
+        private float staminaRatio = 1f;
+
         private void UpdateVignetteIntensity()
         {
+            if (vignetteImageTransform == null) return;
+
+            staminaRatio = Mathf.Clamp01(currentStamina / maxStamina);
+
+            // スタミナが少ないほどスケールが大きくなる（より広く白が覆う）
+            float currentScale = Mathf.Lerp(minScale, maxScale, staminaRatio);
+            vignetteImageTransform.localScale = new Vector3(currentScale, currentScale, 1f);
+
             if (vignette == null) return;
 
-            // スタミナ残量が減るほどvignetteの強度を上げる
-            float staminaRatio = currentStamina / maxStamina;
-            float intensityMin = 0.25f;
-            float intensityMax = 0.5f;
+            vignette.intensity.overrideState = true;
+
+            staminaRatio = Mathf.Clamp01(currentStamina / maxStamina);
 
             vignette.intensity.value = Mathf.Lerp(intensityMax, intensityMin, staminaRatio);
         }
 
+
+        public float GetCurrentRatio() => staminaRatio;
         public float GetCurrentStamina() => currentStamina;
         public float GetMaxStamina() => maxStamina;
     }

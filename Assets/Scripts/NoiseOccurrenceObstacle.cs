@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,20 +13,27 @@ namespace kawanaka
         [Header("ƒmƒCƒY”­¶‘ÎÛ")]
         [SerializeField] private Transform obstacleTransform;
 
+        private int triggerEnterCount = 0;
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                EmitDroneNoise();
+                triggerEnterCount++;
+
+                EmitObstacleNoise();
+                SEManager.Instance.PlaySE_Blocking(0);
+
+                if (triggerEnterCount >= 2)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
 
-        private void EmitDroneNoise()
+        private void EmitObstacleNoise()
         {
-            if (obstacleTransform == null)
-            {
-                return;
-            }
+            if (obstacleTransform == null) return;
 
             NoiseEmitter.EmitNoise(obstacleTransform.position, noiseRadius);
         }

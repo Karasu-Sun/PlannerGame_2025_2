@@ -7,7 +7,7 @@ namespace kawanaka
     public class GameOverManager : MonoBehaviour
     {
         public SceneChanger sceneChanger;
-        public SceneFadeOut sceneFadeOut;
+        public SceneFader sceneFader;
 
         [Header("移動先")]
         public int sceneIndexToLoad;
@@ -16,8 +16,8 @@ namespace kawanaka
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                sceneFadeOut.StartFadeOut();
-                SceneFadeOut.Instance.StartFadeOut(() => {
+                sceneFader.StartFadeOut();
+                SceneFader.Instance.StartFadeOut(() => {
                     Debug.Log("フェード完了！");
                     sceneChanger.StartChangeSceneByIndex(sceneIndexToLoad);
                 });

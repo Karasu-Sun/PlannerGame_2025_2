@@ -25,6 +25,8 @@ namespace kawanaka
         private float SEVolume = 0.5f;
         private float targetAlpha = 0f;
 
+        [SerializeField] private float fadeSpeed = 5f;
+
         private void Start()
         {
             LoadVolumeSettings();
@@ -48,6 +50,14 @@ namespace kawanaka
 
         private void Update()
         {
+            if (volumePanel == null) return;
+
+            volumePanel.alpha = Mathf.MoveTowards(volumePanel.alpha, targetAlpha, Time.unscaledDeltaTime * fadeSpeed);
+
+            bool isVisible = volumePanel.alpha > 0.01f;
+            volumePanel.interactable = isVisible;
+            volumePanel.blocksRaycasts = isVisible;
+
             UpdatePanelVisibility();
         }
 
@@ -110,8 +120,10 @@ namespace kawanaka
 
         public void ToggleVolumePanel()
         {
-            bool isActive = volumePanel.alpha == 0f;
-            targetAlpha = isActive ? 1f : 0f;
+            if (volumePanel == null) return;
+
+            bool shouldShow = volumePanel.alpha == 0f;
+            targetAlpha = shouldShow ? 1f : 0f;
         }
 
         private void UpdatePanelVisibility()

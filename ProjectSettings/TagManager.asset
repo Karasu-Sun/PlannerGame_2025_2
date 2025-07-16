@@ -17,8 +17,8 @@ TagManager:
   - UI
   - interactableLayer
   - Enemy
-  - 
-  - 
+  - Cursor
+  - Wall
   - 
   - 
   - 
@@ -44,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Cursor
+    uniqueID: 2019567075
     locked: 0

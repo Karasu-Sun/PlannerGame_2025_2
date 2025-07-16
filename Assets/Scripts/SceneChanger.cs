@@ -31,7 +31,7 @@ public class SceneChanger : MonoBehaviour
 
     private IEnumerator ChangeSceneCoroutine(string sceneName)
     {
-        while (SceneFadeOut.Instance.isFading)
+        while (SceneFader.Instance.isFading)
         {
             yield return null;
         }

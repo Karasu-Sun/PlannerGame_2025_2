@@ -31,43 +31,72 @@ namespace cakeslice
 	[RequireComponent(typeof(Renderer))]
 	/* [ExecuteInEditMode] */
 	public class Outline : MonoBehaviour
-	{
-		public Renderer Renderer { get; private set; }
-		public SpriteRenderer SpriteRenderer { get; private set; }
-		public SkinnedMeshRenderer SkinnedMeshRenderer { get; private set; }
-		public MeshFilter MeshFilter { get; private set; }
+    {
+        public Renderer Renderer { get; private set; }
+        public SpriteRenderer SpriteRenderer { get; private set; }
+        public SkinnedMeshRenderer SkinnedMeshRenderer { get; private set; }
+        public MeshFilter MeshFilter { get; private set; }
 
-		public int color;
-		public bool eraseRenderer;
+        public int color;
+        public bool eraseRenderer;
 
-		private void Awake()
-		{
-			Renderer = GetComponent<Renderer>();
-			SkinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
-			SpriteRenderer = GetComponent<SpriteRenderer>();
-			MeshFilter = GetComponent<MeshFilter>();
-		}
+        private Material[] _SharedMaterials;
+        public Material[] SharedMaterials
+        {
+            get
+            {
+                if (_SharedMaterials == null)
+                    _SharedMaterials = Renderer.sharedMaterials;
 
-		void OnEnable()
-		{
-			OutlineEffect.Instance?.AddOutline(this);
-		}
+                return _SharedMaterials;
+            }
+        }
 
-		void OnDisable()
-		{
-			OutlineEffect.Instance?.RemoveOutline(this);
-		}
+        [Header("距離設定")]
+        [SerializeField] private float maxDistance = 10f; // この距離を超えたら無効化
+        [SerializeField] private Transform target; // プレイヤーやカメラ
 
-		private Material[] _SharedMaterials;
-		public Material[] SharedMaterials
-		{
-			get
-			{
-				if (_SharedMaterials == null)
-					_SharedMaterials = Renderer.sharedMaterials;
+        private bool isAdded = false;
 
-				return _SharedMaterials;
-			}
-		}
-	}
+        private void Awake()
+        {
+            Renderer = GetComponent<Renderer>();
+            SkinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+            SpriteRenderer = GetComponent<SpriteRenderer>();
+            MeshFilter = GetComponent<MeshFilter>();
+        }
+
+        private void Update()
+        {
+            if (target == null) return;
+
+            float distance = Vector3.Distance(transform.position, target.position);
+
+            if (distance <= maxDistance)
+            {
+                if (!isAdded)
+                {
+                    OutlineEffect.Instance?.AddOutline(this);
+                    isAdded = true;
+                }
+            }
+            else
+            {
+                if (isAdded)
+                {
+                    OutlineEffect.Instance?.RemoveOutline(this);
+                    isAdded = false;
+                }
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (isAdded)
+            {
+                OutlineEffect.Instance?.RemoveOutline(this);
+                isAdded = false;
+            }
+        }
+    }
 }
