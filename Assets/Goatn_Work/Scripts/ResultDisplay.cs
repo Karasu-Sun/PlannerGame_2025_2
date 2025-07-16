@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace Goatn
 {
     public class ResultDisplay : MonoBehaviour
     {
+        [SerializeField] private GameObject defaultButton;
+
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private float duration = 1.5f;
         [SerializeField] private float targetAlpha = 1f;
@@ -20,7 +24,7 @@ namespace Goatn
 
         void Start()
         {
-            //初期状態（透明＆スケールゼロ）
+            // 初期化処理
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0f);
             text.transform.localScale = startScale;
 
@@ -31,25 +35,21 @@ namespace Goatn
 
         private IEnumerator FadeAndScaleIn()
         {
+            // // リザルトテキストの透明度・サイズを変更
             float time = 0f;
             Color startColor = text.color;
 
             while (time < duration)
             {
                 float t = time / duration;
-
-                // α値補間（0 → 1）
                 float alpha = Mathf.Lerp(0f, targetAlpha, t);
+
                 text.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
-
-                // スケール補間
                 text.transform.localScale = Vector3.Lerp(startScale, targetScale, t);
-
                 time += Time.deltaTime;
                 yield return null;
             }
 
-            // 最終値を明示的に設定（ブレ防止）
             text.color = new Color(startColor.r, startColor.g, startColor.b, targetAlpha);
             text.transform.localScale = targetScale;
 
@@ -58,6 +58,8 @@ namespace Goatn
 
         private IEnumerator UIDisplay()
         {
+            // ボタンの透明度を変更
+
             //yield return new WaitForSeconds(delayDuration);
 
             float time = 0f;
@@ -76,6 +78,7 @@ namespace Goatn
             }
 
             foreach (var item in resultUI) item.color = new Color(startColor.r, startColor.g, startColor.b, targetAlpha);
+            EventSystem.current.SetSelectedGameObject(defaultButton);
         }
     }
 }
