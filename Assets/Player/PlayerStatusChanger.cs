@@ -43,10 +43,12 @@ namespace kawanaka
         private void Update()
         {
             float DroneBattery = DroneBatterySystem.Battery;
+
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 if (playerStatusManager.GetStatus(PlayerStatusType.IsOption)) return;
                 if (DroneBattery <= 0) return;
+
                 bool isOperating = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
 
                 playerStatusManager.SetStatus(PlayerStatusType.IsOperation, !isOperating);
@@ -61,7 +63,7 @@ namespace kawanaka
                 playerStatusManager.SetStatus(PlayerStatusType.IsOption, !isPausing);
             }
 
-            bool lightInput = Input.GetMouseButton(2);
+            bool lightInput = Input.GetMouseButton(0);
 
             if (lightInput)
             {

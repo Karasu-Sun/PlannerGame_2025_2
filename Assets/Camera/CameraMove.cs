@@ -51,6 +51,9 @@ namespace kawanaka
             moveSpeedMultiplier = Mathf.Clamp01(multiplier);
         }
 
+        [SerializeField] private int SE_Hovering;
+        [SerializeField] private int SE_Moving;
+
         private void MoveCamera()
         {
             // 入力取得
@@ -93,25 +96,23 @@ namespace kawanaka
             // 慣性処理
             inputDirection = Vector3.Lerp(inputDirection, Vector3.zero, Time.deltaTime * inertiaValue);
 
-            // ドローン飛行音
+            // ドローン飛行音制御
             if (droneActivator.isOperation)
             {
                 if (horizontal != 0 || vertical != 0)
                 {
                     if (!isMove)
                     {
-                        isMove = true;
-                        SEManager.Instance.PlaySE_Looping(10, SEManager.SECategory.Effect);
-                        Debug.Log("ドローン停滞");
+                        isMove = true; SEManager.Instance.FadeOutAndPlaySE_Looping(SE_Moving, SEManager.SECategory.Drone, 0.3f);
+                        Debug.Log("ドローン移動");
                     }
                 }
                 else
                 {
                     if (isMove)
                     {
-                        isMove = false;
-                        SEManager.Instance.PlaySE_Looping(11, SEManager.SECategory.Effect);
-                        Debug.Log("ドローン移動");
+                        isMove = false; SEManager.Instance.FadeOutAndPlaySE_Looping(SE_Hovering, SEManager.SECategory.Drone, 0.3f);
+                        Debug.Log("ドローン停滞");
                     }
                 }
             }
