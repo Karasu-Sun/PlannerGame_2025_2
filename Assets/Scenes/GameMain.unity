@@ -47770,6 +47770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseRadius: 20
   obstacleTransform: {fileID: 474221915}
+  NoiseNum: 21
 --- !u!65 &474221912
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -188477,6 +188478,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b1d4f65b75ecf7a49b0fb35aa10f0faf, type: 3}
   - {fileID: 8300000, guid: 75547fe08692cd3468bd643092d440b9, type: 3}
   - {fileID: 8300000, guid: 2d026fc7303087841ab200e36caee015, type: 3}
+  - {fileID: 8300000, guid: 092be9fdacf17f4479b8b36c9e535ab1, type: 3}
   categorySources:
   - category: 0
     source: {fileID: 1367231365}

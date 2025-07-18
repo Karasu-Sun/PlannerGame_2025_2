@@ -15,6 +15,9 @@ namespace kawanaka
 
         private int triggerEnterCount = 0;
 
+        [Header("ƒmƒCƒYSE")]
+        [SerializeField] int NoiseNum;
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -22,9 +25,9 @@ namespace kawanaka
                 triggerEnterCount++;
 
                 EmitObstacleNoise();
-                SEManager.Instance.PlaySE_Blocking(0);
+                SEManager.Instance.PlaySE_Blocking(NoiseNum);
 
-                if (triggerEnterCount >= 2)
+                if (triggerEnterCount >= 1)
                 {
                     Destroy(gameObject);
                 }
