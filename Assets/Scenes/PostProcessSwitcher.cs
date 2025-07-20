@@ -39,7 +39,7 @@ namespace kawanaka
                 if (currentProfile.TryGetSettings(out vignette))
                 {
                     vignette.intensity.overrideState = true; // –Y‚ê‚¸‚É
-                    Debug.Log("[PostProcessSwitcher] Vignette Žæ“¾Š®—¹");
+                    //Debug.Log("[PostProcessSwitcher] Vignette Žæ“¾Š®—¹");
                 }
                 else
                 {
