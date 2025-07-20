@@ -109698,6 +109698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseRadius: 20
   obstacleTransform: {fileID: 474221915}
+  NoiseNum: 0
 --- !u!65 &474221912
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -148312,6 +148313,7 @@ MonoBehaviour:
   batterySystem: {fileID: 1995223059}
   droneCameraLight: {fileID: 1551617431}
   droneCamera: {fileID: 1194429145}
+  DroneActivateSE: 0
   isOperation: 0
 --- !u!1001 &649378467
 PrefabInstance:
@@ -272605,6 +272607,9 @@ MonoBehaviour:
   springDamping: 2
   inertiaValue: 3
   playerStatusManager: {fileID: 1995223043}
+  droneActivator: {fileID: 0}
+  SE_Hovering: 0
+  SE_Moving: 0
 --- !u!114 &1194429151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314414,7 +314419,7 @@ GameObject:
   - component: {fileID: 1367958880}
   - component: {fileID: 1367958879}
   m_Layer: 0
-  m_Name: Ground (3)
+  m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
