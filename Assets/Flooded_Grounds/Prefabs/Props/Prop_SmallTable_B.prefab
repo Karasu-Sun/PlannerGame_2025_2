@@ -266,4 +266,4 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2362258}
-  m_Enabled: 1
+  m_Enabled: 0

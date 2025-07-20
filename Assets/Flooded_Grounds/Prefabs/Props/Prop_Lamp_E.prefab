@@ -101,7 +101,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.007519, y: 0.5434618, z: 0.33376607}
   m_Center: {x: 0.010402888, y: 0.15627311, z: 0.16566308}
@@ -206,7 +206,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.9902686, y: 0.5410571, z: 0.3238071}
   m_Center: {x: 0.010402873, y: 0.15747546, z: 0.16068359}
@@ -266,4 +266,4 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2393764}
-  m_Enabled: 1
+  m_Enabled: 0

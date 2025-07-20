@@ -101,7 +101,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.8397954, y: 1.049104, z: 0.8397953}
   m_Center: {x: 0.0000006556511, y: -0.5218755, z: 0.000000029802322}
@@ -161,7 +161,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2308446}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &196478
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.8570119, y: 1.0544721, z: 0.8570118}
   m_Center: {x: 0.0000006556511, y: -0.52455956, z: 0.000000044703484}
