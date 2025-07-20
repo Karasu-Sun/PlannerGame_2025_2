@@ -18,7 +18,9 @@ namespace kawanaka
             Effect,      // 特殊効果系
             System,      // UIやシステム操作音
             BgmLike,     // BGM的な音扱い
-            Environment  // 環境音など
+            Environment,  // 環境音など
+            Footsteps,   // 足音系
+            Drone       // ドローン系
         }
 
         [System.Serializable]
@@ -139,12 +141,12 @@ namespace kawanaka
         //=========================
         // SEの再生（ブロッキング）
         //=========================
-        public void PlaySE_Blocking(string name)
+        public void PlaySE_Blocking(string name, SECategory category = SECategory.Main)
         {
             if (isPlayingSE) return;
 
             AudioClip clip = Array.Find(soundEffects, se => se.name == name);
-            if (clip != null && sourceMap.TryGetValue(SECategory.Main, out var source))
+            if (clip != null && sourceMap.TryGetValue(category, out var source))
             {
                 StartCoroutine(PlayAndWait(source, clip));
             }
@@ -154,14 +156,18 @@ namespace kawanaka
             }
         }
 
-        public void PlaySE_Blocking(int index)
+        public void PlaySE_Blocking(int index, SECategory category = SECategory.Main)
         {
             if (isPlayingSE) return;
 
             AudioClip clip = GetClip(index);
-            if (clip != null && sourceMap.TryGetValue(SECategory.Main, out var source))
+            if (clip != null && sourceMap.TryGetValue(category, out var source))
             {
                 StartCoroutine(PlayAndWait(source, clip));
+            }
+            else
+            {
+                Debug.LogWarning($"SEが見つかりません: Index {index}");
             }
         }
 
@@ -179,10 +185,71 @@ namespace kawanaka
             {
                 source.clip = clip;
                 source.loop = true;
+
+                source.volume = 1.0f;
+
                 source.Play();
 
-                loopingCategories.Add(category); // ループ中の記録
+                loopingCategories.Add(category);
             }
+        }
+
+        // SEの再生（ループ）
+        public void FadeOutAndPlaySE_Looping(int nextIndex, SECategory category = SECategory.Main, float fadeTime = 0.3f)
+        {
+            if (!sourceMap.TryGetValue(category, out var source)) return;
+
+            AudioClip nextClip = GetClip(nextIndex);
+            if (nextClip == null) return;
+
+            if (fadeOutCoroutines.ContainsKey(category))
+                StopCoroutine(fadeOutCoroutines[category]);
+
+            fadeOutCoroutines[category] = StartCoroutine(FadeOutThenPlayNext(source, nextClip, category, fadeTime));
+        }
+
+        private IEnumerator FadeOutThenPlayNext(AudioSource source, AudioClip nextClip, SECategory category, float fadeTime)
+        {
+            float startVolume = source.volume;
+            float timer = 0f;
+
+            // フェードアウト
+            while (timer < fadeTime)
+            {
+                timer += Time.deltaTime;
+                float t = timer / fadeTime;
+                source.volume = Mathf.Lerp(startVolume, 0f, t);
+                yield return null;
+            }
+
+            source.Stop();
+            source.clip = nextClip;
+            source.loop = true;
+            source.volume = 0f;
+            source.Play();
+
+            loopingCategories.Add(category);
+
+            // フェードイン
+            yield return FadeIn(source, 1.0f, fadeTime);
+
+            fadeOutCoroutines.Remove(category);
+        }
+
+        private IEnumerator FadeIn(AudioSource source, float targetVolume, float time)
+        {
+            float timer = 0f;
+            float start = source.volume;
+
+            while (timer < time)
+            {
+                timer += Time.deltaTime;
+                float t = timer / time;
+                source.volume = Mathf.Lerp(start, targetVolume, t);
+                yield return null;
+            }
+
+            source.volume = targetVolume;
         }
 
         //=========================

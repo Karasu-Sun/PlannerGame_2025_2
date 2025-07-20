@@ -112,20 +112,35 @@ namespace kawanaka
             currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
         }
 
-        public float staminaRatio;
+        [SerializeField] private RectTransform vignetteImageTransform;
+        [SerializeField] private float minScale = 2.0f;
+        [SerializeField] private float maxScale = 5.3f;
+
+
+        [SerializeField] private float intensityMin = 0.1f;
+        [SerializeField] private float intensityMax = 0.1f;
+
+        private float staminaRatio = 1f;
 
         private void UpdateVignetteIntensity()
         {
+            if (vignetteImageTransform == null) return;
+
+            staminaRatio = Mathf.Clamp01(currentStamina / maxStamina);
+
+            // スタミナが少ないほどスケールが大きくなる（より広く白が覆う）
+            float currentScale = Mathf.Lerp(minScale, maxScale, staminaRatio);
+            vignetteImageTransform.localScale = new Vector3(currentScale, currentScale, 1f);
+
             if (vignette == null) return;
 
             vignette.intensity.overrideState = true;
 
             staminaRatio = Mathf.Clamp01(currentStamina / maxStamina);
-            float intensityMin = 0.15f;
-            float intensityMax = 0.50f;
 
             vignette.intensity.value = Mathf.Lerp(intensityMax, intensityMin, staminaRatio);
         }
+
 
         public float GetCurrentRatio() => staminaRatio;
         public float GetCurrentStamina() => currentStamina;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using kawanaka;
+using kawanakaver2;
 using UnityEngine;
 
 namespace kawanaka
@@ -21,10 +22,13 @@ namespace kawanaka
 
         [Header("参照")]
         [SerializeField] private PlayerStatusManager playerStatusManager;
+        [SerializeField] private DroneActivator droneActivator;
 
         private Vector3 velocity;
         private Vector3 springVelocity;
         private Vector3 inputDirection;
+
+        private bool isMove;
 
         private void Update()
         {
@@ -46,6 +50,9 @@ namespace kawanaka
         {
             moveSpeedMultiplier = Mathf.Clamp01(multiplier);
         }
+
+        [SerializeField] private int SE_Hovering;
+        [SerializeField] private int SE_Moving;
 
         private void MoveCamera()
         {
@@ -88,6 +95,27 @@ namespace kawanaka
 
             // 慣性処理
             inputDirection = Vector3.Lerp(inputDirection, Vector3.zero, Time.deltaTime * inertiaValue);
+
+            // ドローン飛行音制御
+            if (droneActivator.isOperation)
+            {
+                if (horizontal != 0 || vertical != 0)
+                {
+                    if (!isMove)
+                    {
+                        isMove = true; SEManager.Instance.FadeOutAndPlaySE_Looping(SE_Moving, SEManager.SECategory.Drone, 0.3f);
+                        Debug.Log("ドローン移動");
+                    }
+                }
+                else
+                {
+                    if (isMove)
+                    {
+                        isMove = false; SEManager.Instance.FadeOutAndPlaySE_Looping(SE_Hovering, SEManager.SECategory.Drone, 0.3f);
+                        Debug.Log("ドローン停滞");
+                    }
+                }
+            }
         }
     }
 }
