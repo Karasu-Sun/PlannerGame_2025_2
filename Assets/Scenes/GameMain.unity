@@ -7133,7 +7133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetLight: {fileID: 879165336}
-  minFlickerDelay: 10
+  minFlickerDelay: 0.1
   maxFlickerDelay: 10
   minFlickerDuration: 0.05
   maxFlickerDuration: 0.3
@@ -12994,7 +12994,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 260.74847, y: -0.44839478}
+  m_AnchoredPosition: {x: 260.74847, y: -0.44836426}
   m_SizeDelta: {x: -577.5613, y: -54.522278}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &146299587
@@ -37793,7 +37793,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -362.5161, y: -0.44839478}
+  m_AnchoredPosition: {x: -362.5161, y: -0.44836426}
   m_SizeDelta: {x: -792.0643, y: -54.5223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &398934456
@@ -94989,7 +94989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 260.74847, y: -0.44839478}
+  m_AnchoredPosition: {x: 260.74847, y: -0.44836426}
   m_SizeDelta: {x: -577.5613, y: -54.5223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &962060339
@@ -184989,7 +184989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 260.74847, y: -0.44839478}
+  m_AnchoredPosition: {x: 260.74847, y: -0.44836426}
   m_SizeDelta: {x: -577.5613, y: -54.522278}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1943795153
