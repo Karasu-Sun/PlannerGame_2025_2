@@ -4875,6 +4875,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Villa1_Deco_Column_Mid_A
       objectReference: {fileID: 0}
+    - target: {fileID: 131154, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.2
