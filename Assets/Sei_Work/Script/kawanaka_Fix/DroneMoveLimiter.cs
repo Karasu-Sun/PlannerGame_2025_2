@@ -1,34 +1,39 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using kawanaka;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
-// ƒhƒ[ƒ“‚ÌˆÚ“®‚ğ§ŒÀ‚·‚é‚¾‚¯‚ÌƒXƒNƒŠƒvƒg
+// ãƒ‰ãƒ­ãƒ¼ãƒ³ã®ç§»å‹•ã‚’åˆ¶é™ã™ã‚‹ã ã‘ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 
 namespace sei_kawanaka_Fix
 {
     public class DroneMoveLimiter : MonoBehaviour
     {
-        [Header("ƒvƒŒƒCƒ„[i’†Sj")]
+        [Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¼ˆä¸­å¿ƒï¼‰")]
         [SerializeField] private Transform player;
 
-        [Header("ˆÚ“®‰Â”\‹——£ (XZ•½–Ê)")]
+        [Header("ç§»å‹•å¯èƒ½è·é›¢ (XZå¹³é¢)")]
         [SerializeField] public float maxDistance = 15f;
 
         [SerializeField] private PlayerStatusManager playerStatusManager;
 
-        [Header("ŠÄ‹‘ÎÛ‚ÌƒJƒƒ‰")]
+        [Header("ç›£è¦–å¯¾è±¡ã®ã‚«ãƒ¡ãƒ©")]
         [SerializeField] private Camera droneCamera;
 
-        [Header("‘¬“x§Œä‘ÎÛ")]
+        [Header("é€Ÿåº¦åˆ¶å¾¡å¯¾è±¡")]
         [SerializeField] private CameraMove droneMove;
 
-        [Header("ƒfƒoƒbƒO•\¦")]
+        [Header("é€Ÿåº¦è£œæ­£è¨­å®š(æœ€ä½é€Ÿåº¦)")]
+        [SerializeField] private float minSpeedMultiplier = 0.2f;
+
+        [Header("ä½é€Ÿè­¦å‘Šè¡¨ç¤ºï¼ˆRawImageï¼‰")]
+        [SerializeField] private RawImage warningRawImage;
+
+        [Header("ãƒ‡ãƒãƒƒã‚°è¡¨ç¤º")]
         [SerializeField] private bool showGizmo = true;
         [SerializeField] private Color gizmoColor = new Color(1f, 0.5f, 0f, 0.25f);
-
-        [Header("‘¬“x•â³İ’è(Å’á‘¬“x)")]
-        [SerializeField] private float minSpeedMultiplier = 0.2f;
 
         private void Update()
         {
@@ -41,6 +46,23 @@ namespace sei_kawanaka_Fix
 
             droneMove.SetMoveSpeedMultiplier(adjustedSpeed);
 
+            // RawImageã‚’æœ‰åŠ¹/ç„¡åŠ¹åŒ–
+            if (warningRawImage != null)
+            {
+                bool shouldShowWarning = adjustedSpeed <= minSpeedMultiplier + 0.1f; // èª¤å·®ã‚’è€ƒæ…®
+                warningRawImage.enabled = shouldShowWarning;
+
+                // VideoPlayerãŒã‚ã‚‹å ´åˆã€å†ç”Ÿåˆ¶å¾¡
+                var videoPlayer = warningRawImage.GetComponent<VideoPlayer>();
+                if (videoPlayer != null)
+                {
+                    if (shouldShowWarning && !videoPlayer.isPlaying)
+                        videoPlayer.Play();
+                    else if (!shouldShowWarning && videoPlayer.isPlaying)
+                        videoPlayer.Pause();
+                }
+            }
+
             if (distance > maxDistance)
             {
                 DisableDroneControl();
@@ -52,6 +74,17 @@ namespace sei_kawanaka_Fix
             playerStatusManager.SetStatus(PlayerStatusType.IsOperation, false);
             droneCamera.enabled = false;
             droneMove.SetMoveSpeedMultiplier(0f);
+
+            // æ“ä½œçµ‚äº†æ™‚ã«è­¦å‘Šã‚‚éè¡¨ç¤ºã«ã™ã‚‹
+            if (warningRawImage != null)
+            {
+                warningRawImage.enabled = false;
+                var videoPlayer = warningRawImage.GetComponent<VideoPlayer>();
+                if (videoPlayer != null)
+                {
+                    videoPlayer.Pause();
+                }
+            }
         }
 
         private void OnDrawGizmosSelected()
