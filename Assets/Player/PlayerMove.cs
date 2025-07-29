@@ -19,6 +19,7 @@ namespace kawanaka
 
         [Header("段差・回転・しゃがみチェック")]
         public float stepHeight = 0.5f;
+        [SerializeField] float footHeight = 0.05f;
         public float rotationSpeed = 0.2f;
         [SerializeField] private Transform headCheckPoint;
         [SerializeField] private float standUpCheckDistance = 1.0f;
@@ -122,8 +123,9 @@ namespace kawanaka
             playerStatusManager.SetStatus(PlayerStatusType.IsWalk, movementInput.magnitude > 0);
 
             // --- 段差補正 ---
-            Vector3 rayStart = transform.position + Vector3.up * 0.1f;
+            Vector3 rayStart = transform.position + Vector3.up * footHeight;
             Vector3 rayDirection = moveDirection.normalized;
+
             Debug.DrawRay(rayStart, rayDirection * 0.6f, Color.red);
 
             if (Physics.Raycast(rayStart, rayDirection, out RaycastHit hit, 0.6f))
