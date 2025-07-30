@@ -10,8 +10,18 @@ namespace kawanaka
 
         private float rotationX = 0f;
 
-        void Update()
+        [SerializeField] private PlayerStatusManager playerStatusManager;
+
+        [SerializeField] private bool isOperating = false;
+        [SerializeField] private bool isPausing = false;
+
+        private void Update()
         {
+            isOperating = playerStatusManager.GetStatus(PlayerStatusType.IsOperation);
+            isPausing = playerStatusManager.GetStatus(PlayerStatusType.IsOption);
+
+            if (isOperating || isPausing) return;
+
             float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
             float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
