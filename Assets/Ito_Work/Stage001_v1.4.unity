@@ -3910,7 +3910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 41735689}
   m_Layer: 0
-  m_Name: Stage001 (1)
+  m_Name: Stage001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36706,7 +36706,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 671644826}
     m_Modifications:
     - target: {fileID: 131154, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_Name
@@ -36722,7 +36722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.768
+      value: 0.76800007
       objectReference: {fileID: 0}
     - target: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_LocalScale.z
@@ -36730,15 +36730,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -31.79
+      value: -16.69
       objectReference: {fileID: 0}
     - target: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -25.531
+      value: 1.4690018
       objectReference: {fileID: 0}
     - target: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -36777,6 +36777,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
+--- !u!4 &342034557 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 458972, guid: 5296e314f038d5946b1e87c49325871e, type: 3}
+  m_PrefabInstance: {fileID: 342034556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &342113094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66121,6 +66126,7 @@ Transform:
   - {fileID: 53935523}
   - {fileID: 907806524}
   - {fileID: 1282840916}
+  - {fileID: 342034557}
   m_Father: {fileID: 2046744507}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &671936283
@@ -169806,7 +169812,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1708883361}
   m_Layer: 0
-  m_Name: AssetStage (1)
+  m_Name: AssetStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196961,6 +196967,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 75547fe08692cd3468bd643092d440b9, type: 3}
   - {fileID: 8300000, guid: 2d026fc7303087841ab200e36caee015, type: 3}
   - {fileID: 8300000, guid: 092be9fdacf17f4479b8b36c9e535ab1, type: 3}
+  - {fileID: 8300000, guid: 1270bd6fbec98f342b558921e4f33937, type: 3}
+  - {fileID: 8300000, guid: e50ff06ded01eaf4cb40b41d12640e6b, type: 3}
+  - {fileID: 8300000, guid: d2394ffd30806f74bbbccd887f167596, type: 3}
   categorySources:
   - category: 0
     source: {fileID: 1367231365}
@@ -215602,4 +215611,3 @@ SceneRoots:
   - {fileID: 443444907}
   - {fileID: 1708883361}
   - {fileID: 41735689}
-  - {fileID: 342034556}
