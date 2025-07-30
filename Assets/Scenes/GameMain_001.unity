@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 5c3b5974a1e2ad84e95a34dc833a6b9d, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 1603540a222809d44af49de46ff2cc95, type: 2}
 --- !u!1001 &131787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -213287,6 +213287,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7080752448643937084, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
+      propertyPath: playerStatusManager
+      value: 
+      objectReference: {fileID: 1995223043}
     - target: {fileID: 7169031639382595565, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
       propertyPath: m_ShowToolkit
       value: 0
@@ -213652,7 +213656,7 @@ PrefabInstance:
       objectReference: {fileID: 1995223059}
     - target: {fileID: 5430073837925380257, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6657403517317912506, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: m_IsActive
