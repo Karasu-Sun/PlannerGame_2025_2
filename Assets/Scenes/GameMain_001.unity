@@ -119638,7 +119638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e78b58cc1241d74f8eb6bc9aa0b9546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 200
+  moveSpeed: 150
   moveMode: 2
   smoothTime: 0.3
   springStiffness: 10
@@ -214787,6 +214787,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 226654492922923875, guid: debb4a25286a43a468641d035ca406e0, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1783847627433935340, guid: debb4a25286a43a468641d035ca406e0, type: 3}
       propertyPath: sceneFader
       value: 
@@ -214881,7 +214885,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6018512482828744047, guid: debb4a25286a43a468641d035ca406e0, type: 3}
       propertyPath: speedCycleDuration
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6018512482828744047, guid: debb4a25286a43a468641d035ca406e0, type: 3}
       propertyPath: patrolPoints.Array.data[0]
@@ -215531,7 +215535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3417545611658828948, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.14
+      value: -5.3
       objectReference: {fileID: 0}
     - target: {fileID: 3417545611658828948, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: m_LocalPosition.y
@@ -215539,7 +215543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3417545611658828948, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -34
+      value: -59.6
       objectReference: {fileID: 0}
     - target: {fileID: 3417545611658828948, guid: 3c2ab053133fe0e40adb378b83db0146, type: 3}
       propertyPath: m_LocalRotation.w
