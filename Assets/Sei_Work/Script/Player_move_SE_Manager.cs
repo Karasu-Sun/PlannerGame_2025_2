@@ -64,7 +64,6 @@ public class Player_move_SE_Manager : MonoBehaviour
         }
     }
 
-    // SEManager‚ÌV‹@”\
     private IEnumerator FadeOutAndPlaySE(int seIndex, SEManager.SECategory category, float fadeTime)
     {
         SEManager.Instance.FadeOutAndPlaySE_Looping(seIndex, category, fadeTime);

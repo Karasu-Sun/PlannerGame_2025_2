@@ -20,6 +20,12 @@ namespace kawanaka
         [SerializeField] private TypewriterText typewriterText;
         [SerializeField] private int TextNum;
 
+        [Tooltip("前フレームの状態")]
+        [SerializeField] private bool wasActive = false;
+
+        [Tooltip("懐中電灯の点灯音")]
+        [SerializeField] private int OnSENum = 7;
+
         public float Battery => currentBattery;
         public bool IsActive => isActive;
 
@@ -42,6 +48,12 @@ namespace kawanaka
             {
                 isActive = false;
             }
+
+            if (!wasActive && isActive)
+            {
+                SEManager.Instance.PlaySE_Blocking(OnSENum, SEManager.SECategory.System);
+            }
+            wasActive = isActive;
 
             if (isActive)
             {
