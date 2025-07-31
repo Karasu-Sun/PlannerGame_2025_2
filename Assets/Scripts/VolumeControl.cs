@@ -11,20 +11,28 @@ namespace kawanaka
     {
         [Header("UI Settings")]
         [SerializeField] private TMP_Text BGMVolumeText;
-        [SerializeField] private TMP_Text SEVolumeText;
+        [SerializeField] private TMP_Text MainSEVolumeText;
+        [SerializeField] private TMP_Text StaminaSEVolumeText;
+        [SerializeField] private TMP_Text SeriousSEVolumeText;
+        [SerializeField] private TMP_Text SystemSEVolumeText;
+
         [SerializeField] private CanvasGroup volumePanel;
+
         [SerializeField] private Slider BGMvolumeSlider;
-        [SerializeField] private Slider SEvolumeSlider;
+        [SerializeField] private Slider MainSESlider;
+        [SerializeField] private Slider StaminaSESlider;
+        [SerializeField] private Slider SeriousSESlider;
+        [SerializeField] private Slider SystemSESlider;
 
         [Header("Audio Settings")]
         [SerializeField] private AudioMixer audioMixer;
         [SerializeField] private string BGMvolumeParameter = "BGMVolume";
-        [SerializeField] private string SEvolumeParameter = "SEVolume";
+        [SerializeField] private string Main_SEvolumeParameter = "Main_SE";
+        [SerializeField] private string Stamina_SEvolumeParameter = "Stamina_SE";
+        [SerializeField] private string Serious_SEvolumeParameter = "Serious_SE";
+        [SerializeField] private string System_SEvolumeParameter = "System_SE";
 
-        private float BGMVolume = 0.5f;
-        private float SEVolume = 0.5f;
         private float targetAlpha = 0f;
-
         [SerializeField] private float fadeSpeed = 5f;
 
         private void Start()
@@ -32,20 +40,17 @@ namespace kawanaka
             LoadVolumeSettings();
             UpdateVolumeDisplay();
 
-            if (BGMvolumeSlider != null)
-            {
-                BGMvolumeSlider.onValueChanged.AddListener(SetBGMVolume);
-                BGMvolumeSlider.interactable = true;
-            }
+            BGMvolumeSlider.onValueChanged.AddListener(value => SetVolume(BGMvolumeParameter, value, BGMVolumeText, "BGM", "BGMVolume"));
+            MainSESlider.onValueChanged.AddListener(value => SetVolume(Main_SEvolumeParameter, value, MainSEVolumeText, "Main", "MainSEVolume"));
+            StaminaSESlider.onValueChanged.AddListener(value => SetVolume(Stamina_SEvolumeParameter, value, StaminaSEVolumeText, "Stamina", "StaminaSEVolume"));
+            SeriousSESlider.onValueChanged.AddListener(value => SetVolume(Serious_SEvolumeParameter, value, SeriousSEVolumeText, "Serious", "SeriousSEVolume"));
+            SystemSESlider.onValueChanged.AddListener(value => SetVolume(System_SEvolumeParameter, value, SystemSEVolumeText, "System", "SystemSEVolume"));
 
-            if (SEvolumeSlider != null)
-            {
-                SEvolumeSlider.onValueChanged.AddListener(SetSEVolume);
-                SEvolumeSlider.interactable = true;
-            }
-
-            DisableKeyboardInputForSlider(SEvolumeSlider);
             DisableKeyboardInputForSlider(BGMvolumeSlider);
+            DisableKeyboardInputForSlider(MainSESlider);
+            DisableKeyboardInputForSlider(StaminaSESlider);
+            DisableKeyboardInputForSlider(SeriousSESlider);
+            DisableKeyboardInputForSlider(SystemSESlider);
         }
 
         private void Update()
@@ -57,92 +62,61 @@ namespace kawanaka
             bool isVisible = volumePanel.alpha > 0.01f;
             volumePanel.interactable = isVisible;
             volumePanel.blocksRaycasts = isVisible;
-
-            UpdatePanelVisibility();
         }
 
-        public void SetBGMVolume(float value)
+        private void SetVolume(string parameter, float value, TMP_Text displayText, string label, string prefsKey)
         {
-            BGMVolume = value;
-            SetVolume(BGMvolumeParameter, BGMVolume);
-            UpdateVolumeDisplay();
-            SaveVolumeSettings();
+            float dB = value > 0 ? 20f * Mathf.Log10(value) : -80f;
+
+            if (audioMixer != null && !audioMixer.SetFloat(parameter, dB))
+                Debug.LogError($"{parameter} Ç™ë∂ç›ÇµÇ‹ÇπÇÒ");
+
+            if (displayText != null)
+                displayText.text = $"{label}: {Mathf.RoundToInt(value * 100)}%";
+
+            PlayerPrefs.SetFloat(prefsKey, value);
         }
 
-        public void SetSEVolume(float value)
+        private void LoadVolumeSettings()
         {
-            SEVolume = value;
-            SetVolume(SEvolumeParameter, SEVolume);
-            UpdateVolumeDisplay();
+            SetSliderAndMixer(BGMvolumeSlider, BGMvolumeParameter, "BGMVolume");
+            SetSliderAndMixer(MainSESlider, Main_SEvolumeParameter, "MainSEVolume");
+            SetSliderAndMixer(StaminaSESlider, Stamina_SEvolumeParameter, "StaminaSEVolume");
+            SetSliderAndMixer(SeriousSESlider, Serious_SEvolumeParameter, "SeriousSEVolume");
+            SetSliderAndMixer(SystemSESlider, System_SEvolumeParameter, "SystemSEVolume");
         }
 
-        private void SetVolume(string parameter, float volume)
+        private void SetSliderAndMixer(Slider slider, string mixerParam, string prefsKey)
         {
-            float dB = volume > 0 ? 20f * Mathf.Log10(volume) : -80f;
-
-            if (audioMixer != null)
+            float volume = PlayerPrefs.GetFloat(prefsKey, 0.5f);
+            if (slider != null)
             {
-                if (!audioMixer.SetFloat(parameter, dB))
-                    Debug.LogError($"{parameter} Ç™ë∂ç›ÇµÇ‹ÇπÇÒ");
+                slider.value = volume;
+                float dB = volume > 0 ? 20f * Mathf.Log10(volume) : -80f;
+                if (!audioMixer.SetFloat(mixerParam, dB))
+                    Debug.LogError($"{mixerParam} Ç™ë∂ç›ÇµÇ‹ÇπÇÒ");
             }
         }
 
         private void UpdateVolumeDisplay()
         {
-            int BGMPercentage = Mathf.RoundToInt(BGMVolume * 100);
-            int SEPercentage = Mathf.RoundToInt(SEVolume * 100);
-
-            BGMVolumeText.text = $"BGM: {BGMPercentage}%";
-            SEVolumeText.text = $"SE: {SEPercentage}%";
-
-            if (BGMvolumeSlider != null)
-                BGMvolumeSlider.value = BGMVolume;
-
-            if (SEvolumeSlider != null)
-                SEvolumeSlider.value = SEVolume;
-        }
-
-        private void LoadVolumeSettings()
-        {
-            BGMVolume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
-            SEVolume = PlayerPrefs.GetFloat("SEVolume", 0.5f);
-
-            SetVolume(BGMvolumeParameter, BGMVolume);
-            SetVolume(SEvolumeParameter, SEVolume);
-        }
-
-        private void SaveVolumeSettings()
-        {
-            PlayerPrefs.SetFloat("BGMVolume", BGMVolume);
-            PlayerPrefs.SetFloat("SEVolume", SEVolume);
-            PlayerPrefs.Save();
+            BGMVolumeText.text = $"BGM: {Mathf.RoundToInt(BGMvolumeSlider.value * 100)}%";
+            MainSEVolumeText.text = $"Main: {Mathf.RoundToInt(MainSESlider.value * 100)}%";
+            StaminaSEVolumeText.text = $"Stamina: {Mathf.RoundToInt(StaminaSESlider.value * 100)}%";
+            SeriousSEVolumeText.text = $"Serious: {Mathf.RoundToInt(SeriousSESlider.value * 100)}%";
+            SystemSEVolumeText.text = $"System: {Mathf.RoundToInt(SystemSESlider.value * 100)}%";
         }
 
         public void ToggleVolumePanel()
         {
             if (volumePanel == null) return;
-
-            bool shouldShow = volumePanel.alpha == 0f;
-            targetAlpha = shouldShow ? 1f : 0f;
-        }
-
-        private void UpdatePanelVisibility()
-        {
-            if (volumePanel != null)
-            {
-                volumePanel.alpha = targetAlpha;
-
-                volumePanel.interactable = (targetAlpha == 1f);
-                volumePanel.blocksRaycasts = (targetAlpha == 1f);
-            }
+            targetAlpha = (targetAlpha == 0f) ? 1f : 0f;
         }
 
         private void DisableKeyboardInputForSlider(Slider slider)
         {
-            slider.navigation = new Navigation
-            {
-                mode = Navigation.Mode.None
-            };
+            if (slider == null) return;
+            slider.navigation = new Navigation { mode = Navigation.Mode.None };
         }
     }
 }
