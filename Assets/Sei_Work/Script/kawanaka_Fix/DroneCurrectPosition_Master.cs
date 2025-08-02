@@ -34,18 +34,39 @@ namespace sei_kawanaka_Fix
             maxDistance = droneMoveLimiter_Master.maxDistance;
         }
 
+        private bool isFollowingPlayer = false;
+
         private void Update()
         {
             if (droneActivator == null || !droneCamera || !player) return;
 
             if (droneActivator.isOperation)
             {
+                isFollowingPlayer = false; // 操作中は追従不要
                 HandleDroneOperation();
             }
             else
             {
                 ResetPositionSetFlag();
+
+                // 上限超過 && カメラ無効時に追従開始
+                if (!droneCamera.enabled && IsOverLimit())
+                {
+                    isFollowingPlayer = true;
+                }
             }
+
+            // 追従フラグが立っている間はプレイヤー直上に追従
+            if (isFollowingPlayer)
+            {
+                FollowAbovePlayer();
+            }
+        }
+
+        private void FollowAbovePlayer()
+        {
+            Vector3 playerPosition = player.transform.position;
+            droneCamera.transform.position = new Vector3(playerPosition.x, cameraY, playerPosition.z);
         }
 
         private void HandleDroneOperation()
@@ -82,6 +103,12 @@ namespace sei_kawanaka_Fix
         {
             Vector3 playerPosition = player.transform.position;
             droneCamera.transform.position = new Vector3(playerPosition.x, cameraY, playerPosition.z);
+        }
+
+        private bool IsOverLimit()
+        {
+            float distance = Vector3.Distance(droneCamera.transform.position, player.transform.position);
+            return distance > maxDistance;
         }
     }
 }

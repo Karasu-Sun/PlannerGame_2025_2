@@ -41,11 +41,14 @@ namespace kawanaka
             }
         }
 
+        [Header("éQè∆")]
+        [SerializeField] private QKeyActivationTrigger qKeyActivationTrigger;
+
         private void Update()
         {
             float DroneBattery = DroneBatterySystem.Battery;
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) && qKeyActivationTrigger.isActivated)
             {
                 if (playerStatusManager.GetStatus(PlayerStatusType.IsOption)) return;
                 if (DroneBattery <= 0) return;

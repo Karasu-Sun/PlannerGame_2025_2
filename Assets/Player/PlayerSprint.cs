@@ -128,7 +128,7 @@ namespace kawanaka
 
             staminaRatio = Mathf.Clamp01(currentStamina / maxStamina);
 
-            // スタミナが少ないほどスケールが大きくなる（より広く白が覆う）
+            // スタミナが少ないほどスケールが大きくなる
             float currentScale = Mathf.Lerp(minScale, maxScale, staminaRatio);
             vignetteImageTransform.localScale = new Vector3(currentScale, currentScale, 1f);
 

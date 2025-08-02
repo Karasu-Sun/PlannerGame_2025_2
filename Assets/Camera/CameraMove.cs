@@ -61,8 +61,8 @@ namespace kawanaka
             float vertical = Input.GetAxisRaw("Vertical");
             float upDown = 0f;
 
-            if (Input.GetKey(KeyCode.Space)) upDown += 1f;
-            if (Input.GetKey(KeyCode.LeftShift)) upDown -= 1f;
+            if (Input.GetKey(KeyCode.Space)) upDown += 0.5f;
+            if (Input.GetKey(KeyCode.LeftShift)) upDown -= 0.5f;
 
             // ÉèÅ[ÉãÉhãÛä‘ÇÃå≈íËé≤
             Vector3 rawInput = (Vector3.right * horizontal + Vector3.forward * vertical + Vector3.up * upDown).normalized;

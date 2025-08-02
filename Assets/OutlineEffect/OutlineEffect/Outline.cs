@@ -60,6 +60,7 @@ namespace cakeslice
 
         private void Awake()
         {
+            eraseRenderer = true;
             Renderer = GetComponent<Renderer>();
             SkinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
             SpriteRenderer = GetComponent<SpriteRenderer>();
