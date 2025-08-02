@@ -114,7 +114,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 439586}
-  - component: {fileID: 20580684}
   m_Layer: 8
   m_Name: Prop_Bed_A
   m_TagString: Untagged
@@ -139,29 +138,6 @@ Transform:
   - {fileID: 422716}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!205 &20580684
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194242}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.023138642, y: 1.0188819, z: 1.8739188}
-  m_Size: 3.7376862
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.25
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2361788}
-  - screenRelativeHeight: 0.0151569275
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2327652}
-  m_Enabled: 0
 --- !u!1 &196794
 GameObject:
   m_ObjectHideFlags: 0

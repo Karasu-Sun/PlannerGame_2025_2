@@ -31,41 +31,66 @@ namespace sei_kawanaka_Fix
         [Header("低速警告表示（RawImage）")]
         [SerializeField] private RawImage warningRawImage;
 
+        [Header("高度制限")]
+        [SerializeField] private float warningHeightThreshold = 10.5f;
+        [SerializeField] private float minHeightLimit = 10f;
+
         [Header("デバッグ表示")]
         [SerializeField] private bool showGizmo = true;
         [SerializeField] private Color gizmoColor = new Color(1f, 0.5f, 0f, 0.25f);
+
+        [SerializeField] private int BreakSENum = 0;
+
+        [SerializeField] private float resetHeight = 20f;
 
         private void Update()
         {
             if (!playerStatusManager.GetStatus(PlayerStatusType.IsOperation)) return;
 
             float distance = Vector3.Distance(transform.position, player.position);
-
             float t = Mathf.Clamp01(1f - (distance / maxDistance));
             float adjustedSpeed = Mathf.Lerp(minSpeedMultiplier, 1f, t);
-
             droneMove.SetMoveSpeedMultiplier(adjustedSpeed);
 
-            // RawImageを有効/無効化
+            bool shouldShowDistanceWarning = adjustedSpeed <= minSpeedMultiplier + 0.1f;
+            bool shouldShowHeightWarning = transform.position.y < warningHeightThreshold && transform.position.y >= minHeightLimit;
+
+            // 警告UI
             if (warningRawImage != null)
             {
-                bool shouldShowWarning = adjustedSpeed <= minSpeedMultiplier + 0.1f; // 誤差を考慮
-                warningRawImage.enabled = shouldShowWarning;
+                warningRawImage.enabled = shouldShowDistanceWarning || shouldShowHeightWarning;
 
-                // VideoPlayerがある場合、再生制御
                 var videoPlayer = warningRawImage.GetComponent<VideoPlayer>();
                 if (videoPlayer != null)
                 {
-                    if (shouldShowWarning && !videoPlayer.isPlaying)
+                    if (warningRawImage.enabled && !videoPlayer.isPlaying)
                         videoPlayer.Play();
-                    else if (!shouldShowWarning && videoPlayer.isPlaying)
+                    else if (!warningRawImage.enabled && videoPlayer.isPlaying)
                         videoPlayer.Pause();
                 }
             }
 
+            // 超過による操作終了
             if (distance > maxDistance)
             {
+                SEManager.Instance.PlaySE_Blocking(BreakSENum, SEManager.SECategory.Drone);
                 DisableDroneControl();
+            }
+            
+            // 低高度による操作終了
+            if (transform.position.y < minHeightLimit)
+            {
+                SEManager.Instance.PlaySE_Blocking(BreakSENum, SEManager.SECategory.Drone);
+                ResetDronePosition();
+                DisableDroneControl();
+            }
+        }
+        private void ResetDronePosition()
+        {
+            if (player != null)
+            {
+                Vector3 playerPos = player.position;
+                transform.position = new Vector3(playerPos.x, resetHeight, playerPos.z);
             }
         }
 

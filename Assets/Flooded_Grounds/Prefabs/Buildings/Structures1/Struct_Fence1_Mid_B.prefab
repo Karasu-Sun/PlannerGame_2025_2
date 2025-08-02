@@ -327,7 +327,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 469502}
-  - component: {fileID: 20541244}
   m_Layer: 0
   m_Name: Struct_Fence1_Mid_B
   m_TagString: Untagged
@@ -353,30 +352,3 @@ Transform:
   - {fileID: 423098}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!205 &20541244
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190928}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -3.2205133, y: 1.788627, z: 0.046244025}
-  m_Size: 6.441162
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.25
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2303786}
-  - screenRelativeHeight: 0.125
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2304150}
-  - screenRelativeHeight: 0.017070118
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2334958}
-  m_Enabled: 1

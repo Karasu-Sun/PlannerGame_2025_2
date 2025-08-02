@@ -52,14 +52,14 @@ public class Player_move_SE_Manager : MonoBehaviour
             if (currentSECoroutine != null)
                 StopCoroutine(currentSECoroutine);
 
-            currentSECoroutine = StartCoroutine(FadeOutAndPlaySE(nextSEIndex, footstepCategory, 0.3f));
+            currentSECoroutine = StartCoroutine(FadeOutAndPlaySE(nextSEIndex, footstepCategory, 0.1f));
             currentSEIndex = nextSEIndex;
         }
 
         // à⁄ìÆÇµÇƒÇ¢Ç»Ç¢Ç∆Ç´ÅAë´âπí‚é~
         if (!isWalking && currentSEIndex != -1)
         {
-            SEManager.Instance.StopSE(footstepCategory, 0.3f);
+            SEManager.Instance.StopSE(footstepCategory, 0.1f);
             currentSEIndex = -1;
         }
     }
