@@ -120233,7 +120233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1194429144
 AudioListener:
   m_ObjectHideFlags: 0
@@ -120388,8 +120388,12 @@ MonoBehaviour:
   droneMove: {fileID: 1194429149}
   minSpeedMultiplier: 0.05
   warningRawImage: {fileID: 721233301}
+  warningHeightThreshold: 10.5
+  minHeightLimit: 10
   showGizmo: 1
   gizmoColor: {r: 1, g: 0.5, b: 0, a: 0.49803922}
+  BreakSENum: 0
+  resetHeight: 20
 --- !u!114 &1194429149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217079,7 +217083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3887145728987602662, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.48
+      value: -39.9
       objectReference: {fileID: 0}
     - target: {fileID: 3887145728987602662, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
       propertyPath: m_LocalPosition.y
@@ -217087,7 +217091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3887145728987602662, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.77
+      value: -44.6
       objectReference: {fileID: 0}
     - target: {fileID: 3887145728987602662, guid: a8da3a569c3c01f47bc9ea8856f5f924, type: 3}
       propertyPath: m_LocalRotation.w
